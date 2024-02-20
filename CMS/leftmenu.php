@@ -20,7 +20,7 @@
                                       Users Taha
                                     </span>
                                 </a>
-                                <span class="d-inline-block text-truncate text-truncate-sm">Toronto, Canada</span>
+                                <span class="d-inline-block text-truncate text-truncate-sm">Karachi, Pakistan</span>
                             </div>
                             <img src="img/card-backgrounds/cover-2-lg.png" class="cover" alt="cover">
                             <a href="#" onclick="return false;" class="pull-trigger-btn" data-action="toggle" data-class="list-filter-active" data-target=".page-sidebar" data-focus="nav_filter_input">
