@@ -17,7 +17,7 @@
                             <div class="info-card-text">
                                 <a href="#" class="d-flex align-items-center text-white">
                                     <span class="text-truncate text-truncate-sm d-inline-block">
-                                      Admin 1
+                                      Admin 1 / Taha
                                     </span>
                                 </a>
                                 <span class="d-inline-block text-truncate text-truncate-sm">Toronto, Canada</span>
