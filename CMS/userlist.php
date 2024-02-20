@@ -935,22 +935,32 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                                         <th>Status</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
-        <?php
-        $count = mysqli_num_rows($rs);
-        for($i =0;$i<$count;$i++)
-        {
-            $row = mysqli_fetch_array($rs);
-            ?>
-            <tr>
-                <td></td>
-            </tr>
-       <?php }
+									            <tbody>
+									        <?php
+									        $count = mysqli_num_rows($rs);
+									        for($i =0;$i<$count;$i++)
+									        {
+									            $row = mysqli_fetch_array($rs);
+									            ?>
+									            <tr>
+									                <td><?php echo $row['id']?></td>
+                                                            <td><?=$row['name']?></td>
+                                                            <td><?php echo $row['email']?></td>
+                                                            <td><?php echo $row['number']?></td>
+                                                            <td><?php echo $row['address']?></td>
+                                                            <td><?php echo $row['type']?></td>
+                                                            <td><?php echo $row['status']?></td>
+                                                            <td>
+                                                            <a>Edit</a> 
+                                                            | 
+                                                            <a>Delete</a></td>
+								            </tr>
+								       <?php }
 
 
 
 
-        ?>
+										        ?>
 
                                                 </tbody>
                                                 <tfoot>

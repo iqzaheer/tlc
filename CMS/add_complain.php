@@ -7,7 +7,6 @@ require_once("config.php");
         die();
     };
 
-print_r($_POST);
 if(isset($_POST["complain"]) && isset($_POST["user_id"])){
 
 
@@ -167,8 +166,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 
                             $count = mysqli_num_rows($rs);
 
-                            echo $count;
-
+                            
 
                             ?>
 
