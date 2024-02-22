@@ -1,16 +1,12 @@
 <?php
 
+    if(isset($_POST['fname']) && $_POST['fname'] != '' && $_POST['emailverify'] !=''){
+
     $name = $_POST["fname"];
     $email = $_POST["emailverify"];
     $pass = $_POST["userpassword"];
     $num = $_POST["number"];
 
-    if(isset($_POST['fname']) && $_POST['fname'] != '' && $_POST['emailverify'] !=''){
-
-        // echo "here..";
-        // echo "<pre>";
-        // print_r($_POST);
-        // echo "</pre>";
 
         $con = mysqli_connect("localhost","root","","cms");
 
@@ -22,13 +18,11 @@
         $name = $_POST['fname']." ".$_POST['lname'];
         $sql = "INSERT INTO `users`( `name`, `email`, `password`, `number`, `type`, `status`) VALUES  ('$name','$email','$pass',$num,'2','1') ";
 
-     //   echo $sql;
-
-        //die();
+    
         mysqli_query($con , $sql);
 
 
-        header('Location: page_login.php');
+        header('Location: index.php');
 
 
     }

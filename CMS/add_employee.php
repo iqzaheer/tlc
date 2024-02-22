@@ -1,33 +1,34 @@
 <?php
-require_once("config.php");
 
+require_once('config.php');
+
+
+
+if(isset($_POST['name']) && $_POST['nic'])
+{
+
+//echo "here....";
+    $name = $_POST['name'];
+    $nic = $_POST['nic'];
+    $salary = $_POST['salary'];
+    $address = $_POST['address'];
+    $type = $_POST['type'];
+    $timing = $_POST['timing'];
 
     $con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
     if(!$con){
         die();
-    };
+    }
 
-if(isset($_POST["complain"]) && isset($_POST["user_id"])){
+    $sql = "INSERT INTO `employees`(`name`, `nic`, `address`, `salary`, `type`, `timing`) VALUES
+                                   ('$name','$nic','$address','$salary','$type','$timing')";
 
-
-    $user_id= $_POST["user_id"];
-    $complain = $_POST["complain"];
-    $detail = $_POST["detail"];
-    $status = '1';
-    $category = $_POST["category"];
-    $assigned_to = $_POST["employee"];
-    $date = date("Y-m-d H:i:s");
-
-    $sql = "INSERT INTO `complains`( `user_id`, `complain`, `detail`, `date`, `status`, `category`, `assigned_to`) VALUES ('$user_id','$complain','$detail','$date','$status','$category','$assigned_to');";
     mysqli_query($con,$sql);
+    // echo $sql;
+
 }
 
-
 ?>
-
-
-
-
 <!DOCTYPE html>
 <!-- 
 Template Name:  SmartAdmin Responsive WebApp - Template build with Twitter Bootstrap 4
@@ -62,10 +63,10 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         <!-- DOC: script to save and load page settings -->
         <script>
             /**
-             *	This script should be placed right after the body tag for fast execution 
-             *	Note: the script is written in pure javascript and does not depend on thirdparty library
+             *  This script should be placed right after the body tag for fast execution 
+             *  Note: the script is written in pure javascript and does not depend on thirdparty library
              **/
-            'use strict';   
+            'use strict';
 
             var classHolder = document.getElementsByTagName("BODY")[0],
                 /** 
@@ -133,9 +134,9 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                     <!-- the #js-page-content id is needed for some plugins to initialize -->
                     <main id="js-page-content" role="main" class="page-content">
                         <ol class="breadcrumb page-breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li>
-                            <li class="breadcrumb-item">Complain</li>
-                            <li class="breadcrumb-item active">Add Complain</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Inventory</a></li>
+                            <li class="breadcrumb-item">Form</li>
+                            <li class="breadcrumb-item active">Add User</li>
                             <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
                         </ol>
                         
@@ -144,7 +145,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                 <div id="panel-1" class="panel">
                                     <div class="panel-hdr">
                                         <h2>
-                                            Add  <span class="fw-300"><i>Complain</i></span>
+                                            User  <span class="fw-300"><i>Form</i></span>
                                         </h2>
                                         <div class="panel-toolbar">
                                             <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
@@ -155,110 +156,38 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                     <div class="panel-container show">
                                         <div class="panel-content">
                                             
-                                            <form method='post' action='add_complain.php'>
+                                            <form method='post' action='add_user.php'>
                                                 <div class="form-group">
-                                                    <label class="form-label" for="simpleinput">User Id</label>
-                            <?php
-
-
-                            $sql = "select * from users where type = 2";
-                            $rs = mysqli_query($con,$sql);
-
-                            $count = mysqli_num_rows($rs);
-
-                            
-
-                            ?>
-
-                            <select id='user_id' name='user_id' class='form-control'>
-                                <option>Select User</option>
-
-                                <?php 
-                                for($i=0;$i<$count;$i++){ 
-                                    $row = mysqli_fetch_array($rs);
-                                
-        echo "<option value='$row[id]'>".$row['name'].", ".$row['email']."</option>";
-
-                                 } ?>
-
-                            </select>
-                                                    
-
-
+                                                    <label class="form-label" for="simpleinput">Name</label>
+                                                    <input type="text" id="name" name="name" class="form-control" required placeholder="Name">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label" for="example-email-2">Complain</label>
-                                                    <input type="text" id="email" name="complain" class="form-control" placeholder="Enter Your Complain" required>
+                                                    <label class="form-label" for="example-email-2">NIC</label>
+                                                    <input type="nic" id="nic" name="email" class="form-control" placeholder="Enter Your NIC" required>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label" for="example-password">details</label>
-                                                    <input type="text" id="password" name="detail" class="form-control"  required placeholder="Enter Complain Details">
+                                                    <label class="form-label" for="example-password">Salary</label>
+                                                    <input type="salary" id="salary" name="password" class="form-control"  required placeholder="Salary ">
                                                 </div>
-                                              
-
                                                 <div class="form-group">
-                                                    <label class="form-label" for="example-palaceholder">Category</label>
-                                            <?php
-                                            $sql = "select * from category";
-
-                                            $rs = mysqli_query($con,$sql);
-
-                                            $count = mysqli_num_rows($rs);
-
-
-                                            ?>
-                                            <select id='category' name='category' class='form-control'>
-                                                <?php
-                                                    for($i=0;$i<$count;$i++){
-                                                        $row = mysqli_fetch_array($rs);
-                            echo "<option value='".$row['id']."'>".$row['name']."</option>";
-                                                    }
-
-                                                ?>
-                                            </select>
-                                                  
+                                                    <label class="form-label" for="example-palaceholder">Address</label>
+                                                    <input type="text" id="address" name='address' class="form-control" placeholder="Address">
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="form-label" for="example-palaceholder">Assigned_To</label>
-                                                                               <?php
-
-
-                            $sql = "select * from employees";
-                            $rs = mysqli_query($con,$sql);
-
-                            $count = mysqli_num_rows($rs);
-
-                           
-
-
-                            ?>
-
-                            <select id='employee' name='employee' class='form-control'>
-                                <option value='0'>Select Employee</option>
-
-                                <?php 
-                                for($i=0;$i<$count;$i++){ 
-                                    $row = mysqli_fetch_array($rs);
-                                
-                                echo "<option value='".$row['id']."'>".$row['name']."</option>";
-
-                                 } ?>
-
-                            </select>
-                                                    
- </div>
-
-   <div class="form-group">
-                        <label class="form-label" for="example-password">Attachment</label>
-                        <input type="file" id="file" name="file" class="form-control"  required placeholder="Enter Complain Details">
-                    </div>
+                                                    <label class="form-label" for="example-palaceholder">Type</label>
+                                                    <input type="text" id="type" name='type' class="form-control" placeholder="Your Type" >
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label" for="example-palaceholder">Timing</label>
+                                                    <input type="text" id="timing" name='timing' class="form-control" placeholder="Your Timing" >
+                                                </div>
                                                 
                                                 
                                                 <div class="form-group">
                                                     
                                                    
-                                                        <button  class="btn btn-primary" id="submit" name='submit' value='Add User'>Add Complain</button>
+                                                        <button  class="btn btn-primary" id="submit" name='submit' value='Add User'>Add Employee</button>
                                                         
                                                    
                                                 </div>
@@ -1000,18 +929,18 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         </div>
         <!-- END Page Settings -->
         <!-- base vendor bundle: 
-			 DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations 
-						+ pace.js (recommended)
-						+ jquery.js (core)
-						+ jquery-ui-cust.js (core)
-						+ popper.js (core)
-						+ bootstrap.js (core)
-						+ slimscroll.js (extension)
-						+ app.navigation.js (core)
-						+ ba-throttle-debounce.js (core)
-						+ waves.js (extension)
-						+ smartpanels.js (extension)
-						+ src/../jquery-snippets.js (core) -->
+             DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations 
+                        + pace.js (recommended)
+                        + jquery.js (core)
+                        + jquery-ui-cust.js (core)
+                        + popper.js (core)
+                        + bootstrap.js (core)
+                        + slimscroll.js (extension)
+                        + app.navigation.js (core)
+                        + ba-throttle-debounce.js (core)
+                        + waves.js (extension)
+                        + smartpanels.js (extension)
+                        + src/../jquery-snippets.js (core) -->
         <script src="js/vendors.bundle.js"></script>
         <script src="js/app.bundle.js"></script>
         <script type="text/javascript">
