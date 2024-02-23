@@ -1,0 +1,1 @@
+CREATE TABLE `cms`.`attachments`( `record_id` INT(10) NOT NULL AUTO_INCREMENT, `complain_id` INT(10), `file_name` VARCHAR(2500), `user_id` INT(10), `created_at` DATETIME, PRIMARY KEY (`record_id`) ); 

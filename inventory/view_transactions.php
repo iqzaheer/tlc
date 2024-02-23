@@ -1,17 +1,15 @@
+<?php 
+
+require_once("config.php");
+$con = mysqli_connect 
+
+?>
 <!DOCTYPE html>
-<!-- 
-Template Name:  SmartAdmin Responsive WebApp - Template build with Twitter Bootstrap 4
-Version: 4.4.1
-Author: Sunnyat Ahmmed
-Website: http://gootbootstrap.com
-Purchase: https://wrapbootstrap.com/theme/smartadmin-responsive-webapp-WB0573SK0
-License: You must have a valid license purchased only from wrapbootstrap.com (link above) in order to legally use this theme for your project.
--->
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <title>
-            Export - Datatables - SmartAdmin v4.4.1
+            Datari Hybrid
         </title>
         <meta name="description" content="Export">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
