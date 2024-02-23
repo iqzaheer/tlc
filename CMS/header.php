@@ -312,7 +312,7 @@
                                                         <a href="#" class="d-flex align-items-center">
                                                             <span class="status status-success mr-2">
                                                                 <!-- <img src="img/demo/avatars/avatar-m.png" data-src="img/demo/avatars/avatar-h.png" class="profile-image rounded-circle" alt="Sarah McBrook" /> -->
-                                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('img/demo/avatars/avatar-h.png')"></span>
+                                                                <span class="profile-image rounded-circle d-inline-block" style="background-image:url('img/admin.png')"></span>
                                                             </span>
                                                             <span class="d-flex flex-column flex-1 ml-1">
                                                                 <span class="name">Sarah McBrook</span>
@@ -580,7 +580,7 @@
                             <!-- app user menu -->
                             <div>
                                 <a href="#" data-toggle="dropdown" title="drlantern@gotbootstrap.com" class="header-icon d-flex align-items-center justify-content-center ml-2">
-                                    <img src="img/admin.png" class="profile-image rounded-circle" >
+                                    <img src="img/admin.png"  class="profile-image rounded-circle">
                                     <!-- you can also add username next to the avatar with the codes below:
 									<span class="ml-1 mr-1 text-truncate text-truncate-header hidden-xs-down">Me</span>
 									<i class="ni ni-chevron-down hidden-xs-down"></i> -->
