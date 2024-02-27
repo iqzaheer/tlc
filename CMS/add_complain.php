@@ -20,6 +20,7 @@ if(isset($_POST["complain"]) && isset($_POST["user_id"])){
 
     $sql = "INSERT INTO `complains`( `user_id`, `complain`, `detail`, `date`, `status`, `category`, `assigned_to`) VALUES ('$user_id','$complain','$detail','$date','$status','$category','$assigned_to');";
     mysqli_query($con,$sql);
+  
 }
 
 
@@ -248,7 +249,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                             </select>
                                                     
  </div>
-
+                                        
    <div class="form-group">
                         <label class="form-label" for="example-password">Attachment</label>
                         <input type="file" id="file" name="file" class="form-control"  required placeholder="Enter Complain Details">

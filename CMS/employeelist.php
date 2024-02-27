@@ -7,7 +7,7 @@ require_once("config.php");
 $con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 
 
-$sql = "select * from complains";
+$sql = "select * from employees";
 
 $rs = mysqli_query($con,$sql);
 
@@ -122,8 +122,8 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                     <main id="js-page-content" role="main" class="page-content">
                         <ol class="breadcrumb page-breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li>
-                            <li class="breadcrumb-item">Users</li>
-                            <li class="breadcrumb-item active">User Listing</li>
+                            <li class="breadcrumb-item">Employee</li>
+                            <li class="breadcrumb-item active">Employee Listing</li>
                             <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
                         </ol>
                        
@@ -285,13 +285,12 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                                 <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>User_Id</th>
-                                                        <th>Complain</th>
-                                                        <th>Complain Detail</th>
-                                                        <th>Date</th>
-                                                        <th>Status</th>
-                                                        <th>Category</th>
-                                                        <th>Assigned To</th>
+                                                        <th>Name</th>
+                                                        <th>NIC</th>
+                                                        <th>Address</th>
+                                                        <th>Salary</th>
+                                                        <th>Type</th>
+                                                        <th>Timing</th>
                                                         
                                                     </tr>
                                                 </thead>
@@ -304,13 +303,13 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 									            ?>
 									            <tr>
 									                <td><?php echo $row['id']?></td>
-                                                  <td><?=$row['user_id']?></td>
-                                                  <td><?php echo $row['complain']?></td>
-                                                  <td><?php echo $row['detail']?></td>
-                                                   <td><?php echo $row['date']?></td>
-                                                   <td><?php echo $row['status']?></td>
-                                                     <td><?php echo $row['category']?></td>
-                                                     <td><?php echo $row['assigned_to']?></td>
+                                                  <td><?=$row['name']?></td>
+                                                  <td><?php echo $row['nic']?></td>
+                                                  <td><?php echo $row['address']?></td>
+                                                   <td><?php echo $row['salary']?></td>
+                                                   <td><?php echo $row['type']?></td>
+                                                     <td><?php echo $row['timing']?></td>
+                                                    
                                                      <td>
                                                             <a>Edit</a> 
                                                             | 
@@ -327,13 +326,13 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                                 <tfoot>
                                                     <tr>
                                                          <th>Id</th>
-                                                         <th>User_Id</th>
-                                                        <th>Complain</th>
-                                                        <th>Complain Detail</th>
-                                                        <th>Date</th>
-                                                        <th>Status</th>
-                                                        <th>Category</th>
-                                                        <th>Assigned To</th>
+                                                        <th>Name</th>
+                                                        <th>NIC</th>
+                                                        <th>Address</th>
+                                                        <th>Salary</th>
+                                                        <th>Type</th>
+                                                        <th>Timing</th>
+                                                        
                                                     </tr>
                                                 </tfoot>
                                             </table>

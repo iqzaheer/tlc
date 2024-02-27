@@ -22,6 +22,7 @@ if(isset($_POST['name']) && $_POST['submit'])
     $sql = "INSERT INTO `users`( `name`, `email`, `password`, `number`,`address` ,`type`, `status`) VALUES  ('$name','$email','$password',$phone,'$address','2','1') ";
 
     mysqli_query($con,$sql);
+    header("userlist.php");
     // echo $sql;
 
 }
@@ -132,8 +133,8 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                     <!-- the #js-page-content id is needed for some plugins to initialize -->
                     <main id="js-page-content" role="main" class="page-content">
                         <ol class="breadcrumb page-breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">Inventory</a></li>
-                            <li class="breadcrumb-item">Form</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li>
+                            <li class="breadcrumb-item">Users</li>
                             <li class="breadcrumb-item active">Add User</li>
                             <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
                         </ol>

@@ -4,7 +4,7 @@ require_once('config.php');
 
 
 
-if(isset($_POST['name']) && $_POST['nic'])
+if(isset($_POST['name']) && $_POST['type'])
 {
 
 //echo "here....";
@@ -23,8 +23,9 @@ if(isset($_POST['name']) && $_POST['nic'])
     $sql = "INSERT INTO `employees`(`name`, `nic`, `address`, `salary`, `type`, `timing`) VALUES
                                    ('$name','$nic','$address','$salary','$type','$timing')";
 
-    mysqli_query($con,$sql);
+    mysqli_query($con,$sql);    
     // echo $sql;
+    header("employeelist.php");
 
 }
 
@@ -134,9 +135,9 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                     <!-- the #js-page-content id is needed for some plugins to initialize -->
                     <main id="js-page-content" role="main" class="page-content">
                         <ol class="breadcrumb page-breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">Inventory</a></li>
-                            <li class="breadcrumb-item">Form</li>
-                            <li class="breadcrumb-item active">Add User</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li>
+                            <li class="breadcrumb-item">Employee</li>
+                            <li class="breadcrumb-item active">Add Employee</li>
                             <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
                         </ol>
                         
@@ -156,18 +157,18 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                     <div class="panel-container show">
                                         <div class="panel-content">
                                             
-                                            <form method='post' action='add_user.php'>
+                                            <form method='post' action='add_employee.php'>
                                                 <div class="form-group">
                                                     <label class="form-label" for="simpleinput">Name</label>
                                                     <input type="text" id="name" name="name" class="form-control" required placeholder="Name">
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label" for="example-email-2">NIC</label>
-                                                    <input type="nic" id="nic" name="email" class="form-control" placeholder="Enter Your NIC" required>
+                                                    <input type="text" id="nic" name="nic" class="form-control" placeholder="Enter Your NIC" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label" for="example-password">Salary</label>
-                                                    <input type="salary" id="salary" name="password" class="form-control"  required placeholder="Salary ">
+                                                    <input type="text" id="salary" name="salary" class="form-control"  required placeholder="Salary ">
                                                 </div>
                                                 <div class="form-group">
                                                     <label class="form-label" for="example-palaceholder">Address</label>
