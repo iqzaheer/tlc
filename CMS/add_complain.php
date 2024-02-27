@@ -9,7 +9,15 @@ require_once("config.php");
 
 if(isset($_POST["complain"]) && isset($_POST["user_id"])){
 
+    //echo "<pre>";
+    
+    //print_r($_FILES);
 
+    $uploadname = "uploads/".date("YmdHis").$_FILES['image']['name'];
+
+    move_uploaded_file($_FILES['image']['tmp_name'],$uploadname);
+    //die();
+    //echo "</pre>";
     $user_id= $_POST["user_id"];
     $complain = $_POST["complain"];
     $detail = $_POST["detail"];
@@ -20,7 +28,13 @@ if(isset($_POST["complain"]) && isset($_POST["user_id"])){
 
     $sql = "INSERT INTO `complains`( `user_id`, `complain`, `detail`, `date`, `status`, `category`, `assigned_to`) VALUES ('$user_id','$complain','$detail','$date','$status','$category','$assigned_to');";
     mysqli_query($con,$sql);
-  
+
+    $complanid = mysqli_insert_id($con);
+    
+    $sql = "INSERT INTO `cms`.`attachments`     (  `complain_id`,    `file_name`,   `user_id`,     `created_at`)
+                        VALUES ('$complanid','$uploadname','0',NOW());";
+        mysqli_query($con,$sql);
+
 }
 
 
@@ -156,7 +170,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                     <div class="panel-container show">
                                         <div class="panel-content">
                                             
-                                            <form method='post' action='add_complain.php'>
+                                            <form method='post' action='add_complain.php' enctype="multipart/form-data">
                                                 <div class="form-group">
                                                     <label class="form-label" for="simpleinput">User Id</label>
                             <?php
@@ -252,7 +266,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                         
    <div class="form-group">
                         <label class="form-label" for="example-password">Attachment</label>
-                        <input type="file" id="file" name="file" class="form-control"  required placeholder="Enter Complain Details">
+                        <input type="file" id="image" name="image" class="form-control"  required placeholder="Enter Complain Details" multiple>
                     </div>
                                                 
                                                 

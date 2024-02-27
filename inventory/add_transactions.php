@@ -2,6 +2,8 @@
 
 require_once("config.php");
 
+$con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
+
 if (isset($_POST['name']) && ($_POST['password']) !=""){
 
     $name = $_POST['name'];
@@ -10,12 +12,29 @@ if (isset($_POST['name']) && ($_POST['password']) !=""){
     $address = $_POST['address'];
     $phone = $_POST['phone'];
 
-    $con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
+   
     $sql = "insert into users (`name`,`email`,`password`,`phone`,`address`) values
                                 ('$name','$email','$password',$phone','$address')";
     mysqli_query($con,$sql);
-    // echo $sql;
+    
+    $user_id = mysqli_insert_id($con);
+
+    $sql = "insert into accounts (`account_type_id`,`name`,`balance`,  `description`,  `reference_id`,  `reference`,  `status`)
+    values ('$account_type','$name','$balance','','$user_id','user','1')";
+
+    mysqli_query($con,$sql);
+
+    $sql = "insert into transactions (`account_id`,`date`, `description`, `debit`, `credit`)
+    values ('$account_id','$date','$description','$debit','$credit')";
+
 }
+$sql = "select * from account_type where status = 1";
+
+$rs = mysqli_query($con,$sql);
+
+$sql2 = "select * from users where type = 3 || type = 4";
+
+$rs2 = mysqli_query($con,$sql2);
 
 ?>
 
@@ -798,28 +817,55 @@ if (isset($_POST['name']) && ($_POST['password']) !=""){
                                                     <textarea class="form-control" id="Particulars" name="Particulars" rows="1" required></textarea>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label" for="example-email-2">Email</label>
-                                                    <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+                                                    <label class="form-label" for="example-select">User Type</label>
+                                                    <select class="form-control" name="user_type" id="user_type">
+                                                        <option value="3">Customer</option>
+                                                        <option value="4">Supplier</option>
+                                                        <option >Expenses</option>
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label" for="example-password">Password</label>
-                                                    <input type="password" id="password" name="password" class="form-control" required>
+                                                    <label class="form-label" for="example-select">Account Type</label>
+                                                    <select class="form-control" name="account_type" id="account_type">
+                                                        <?php
+                                                            $count = mysqli_num_rows($rs);
+                                                            for($i=0;$i<$count;$i++){
+                                                                $row = mysqli_fetch_array($rs);
+                                                                //print_r($row);
+                                                                echo "<option value='".$row['id']."'>".$row['name']."</option>";
+                                                            }
+
+                                                        ?>
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label" for="example-textarea">Address</label>
-                                                    <textarea class="form-control" id="address" name="address" rows="2" required></textarea>
+                                                    <label class="form-label" for="example-select">Account</label>
+                                                    <select class="form-control" name="account" id="account">
+                                                        <?php
+                                                            $count = mysqli_num_rows($rs2);
+                                                            for($i=0;$i<$count;$i++){
+                                                                $row = mysqli_fetch_array($rs2);
+                                                                //print_r($row);
+                                                                echo "<option value='".$row['id']."'>".$row['name']."</option>";
+                                                            }
+
+                                                        ?>
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label" for="simpleinput">Contact Number</label>
-                                                    <input type="text" id="phone" name="phone" class="form-control" required>
+                                                    <label class="form-label" for="example-select">Amount Type</label>
+                                                    <select class="form-control" name="amount_type" id="amount_type">
+                                                        <option>Debit</option>
+                                                        <option>credit</option>
+                                                    </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label" for="example-fileinput">Upload Image</label>
-                                                    <input type="file" id="example-fileinput" class="form-control-file">
+                                                    <label class="form-label" for="simpleinput">Amount</label>
+                                                    <input type="number" id="amount" name="amount" class="form-control" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="">
-                                                        <button class="btn btn-primary">Add Users</button>
+                                                        <button class="btn btn-primary">Add</button>
                                                     </div>
                                                 </div>
                                             </form>

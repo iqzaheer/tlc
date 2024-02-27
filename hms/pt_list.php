@@ -1,17 +1,36 @@
-<?php 
+<?php
 
 require_once("config.php");
-$con = mysqli_connect 
+
+
+
+$con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
+
+
+$sql = "select * from users";
+
+$rs = mysqli_query($con,$sql);
+
+
 
 ?>
+
 <!DOCTYPE html>
+<!-- 
+Template Name:  SmartAdmin Responsive WebApp - Template build with Twitter Bootstrap 4
+Version: 4.4.1
+Author: Sunnyat Ahmmed
+Website: http://gootbootstrap.com
+Purchase: https://wrapbootstrap.com/theme/smartadmin-responsive-webapp-WB0573SK0
+License: You must have a valid license purchased only from wrapbootstrap.com (link above) in order to legally use this theme for your project.
+-->
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <title>
-            Datari Hybrid
+            Basic - Datatables - SmartAdmin v4.4.1
         </title>
-        <meta name="description" content="Export">
+        <meta name="description" content="Basic">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
         <!-- Call App Mode on ios devices -->
@@ -26,7 +45,6 @@ $con = mysqli_connect
         <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
         <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5">
         <link rel="stylesheet" media="screen, print" href="css/datagrid/datatables/datatables.bundle.css">
-        <link rel="stylesheet" media="screen, print" href="css/fa-solid.css">
     </head>
     <body class="mod-bg-1 ">
         <!-- DOC: script to save and load page settings -->
@@ -93,7 +111,7 @@ $con = mysqli_connect
         <div class="page-wrapper">
             <div class="page-inner">
                 <!-- BEGIN Left Aside -->
-                <?php require_once("leftmenu.php"); ?>
+               <?php require_once('leftmenu.php') ?>
                 <!-- END Left Aside -->
                 <div class="page-content-wrapper">
                     <!-- BEGIN Page Header -->
@@ -744,61 +762,226 @@ $con = mysqli_connect
                     <!-- the #js-page-content id is needed for some plugins to initialize -->
                     <main id="js-page-content" role="main" class="page-content">
                         <ol class="breadcrumb page-breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">Datari Hybrid</a></li>
-                            <li class="breadcrumb-item">Transactions</li>
-                            <li class="breadcrumb-item active">View transactions</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li>
+                            <li class="breadcrumb-item">Users</li>
+                            <li class="breadcrumb-item active">User Listing</li>
                             <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
                         </ol>
-                        <div class="subheader">
-                            <h1 class="subheader-title">
-                                <i class='subheader-icon fal fa-table'></i> 
-                                View Transactions
-                            </h1>
-                        </div>
+                       
+                        
                         <div class="row">
                             <div class="col-xl-12">
                                 <div id="panel-1" class="panel">
-                                    <div class="panel-container show">
-                                        <div class="panel-content">
-                                            <div>
-                                                <h2>Filters </h2>
-                                                <div class="form-group row">
-                                                <label class="col-form-label col-12 col-lg-3 form-label text-lg-right">Single Date Picker</label>
-                                                <div class="col-12 col-lg-4">
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" value="07/17/2020" id="datepicker-3">
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text fs-xl">
-                                                                <i class="fal fa-calendar-alt"></i>
-                                                            </span>
+                                    <div class="panel-hdr">
+                                        <h2>
+                                            Example <span class="fw-300"><i>Table</i></span>
+                                        </h2>
+                                        <div class="panel-toolbar">
+                                            <button class="btn btn-primary btn-sm" data-toggle="dropdown">Table Style</button>
+                                            <div class="dropdown-menu dropdown-menu-animated dropdown-menu-right position-absolute pos-top">
+                                                <button class="dropdown-item active" data-action="toggle" data-class="table-bordered" data-target="#dt-basic-example"> Bordered Table </button>
+                                                <button class="dropdown-item" data-action="toggle" data-class="table-sm" data-target="#dt-basic-example"> Smaller Table </button>
+                                                <button class="dropdown-item" data-action="toggle" data-class="table-dark" data-target="#dt-basic-example"> Table Dark </button>
+                                                <button class="dropdown-item active" data-action="toggle" data-class="table-hover" data-target="#dt-basic-example"> Table Hover </button>
+                                                <button class="dropdown-item active" data-action="toggle" data-class="table-stripe" data-target="#dt-basic-example"> Table Stripped </button>
+                                                <div class="dropdown-divider m-0"></div>
+                                                <div class="dropdown-multilevel dropdown-multilevel-left">
+                                                    <div class="dropdown-item">
+                                                        tbody color
+                                                    </div>
+                                                    <div class="dropdown-menu no-transition-delay">
+                                                        <div class="js-tbody-colors dropdown-multilevel dropdown-multilevel-left d-flex flex-wrap" style="width: 15.9rem; padding: 0.5rem">
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-100" class="btn d-inline-block bg-primary-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-200" class="btn d-inline-block bg-primary-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-300" class="btn d-inline-block bg-primary-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-400" class="btn d-inline-block bg-primary-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-500" class="btn d-inline-block bg-primary-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-600" class="btn d-inline-block bg-primary-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-700" class="btn d-inline-block bg-primary-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-800" class="btn d-inline-block bg-primary-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-900" class="btn d-inline-block bg-primary-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-100" class="btn d-inline-block bg-success-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-200" class="btn d-inline-block bg-success-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-300" class="btn d-inline-block bg-success-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-400" class="btn d-inline-block bg-success-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-500" class="btn d-inline-block bg-success-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-600" class="btn d-inline-block bg-success-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-700" class="btn d-inline-block bg-success-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-800" class="btn d-inline-block bg-success-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-900" class="btn d-inline-block bg-success-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-100" class="btn d-inline-block bg-info-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-200" class="btn d-inline-block bg-info-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-300" class="btn d-inline-block bg-info-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-400" class="btn d-inline-block bg-info-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-500" class="btn d-inline-block bg-info-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-600" class="btn d-inline-block bg-info-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-700" class="btn d-inline-block bg-info-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-800" class="btn d-inline-block bg-info-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-900" class="btn d-inline-block bg-info-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-100" class="btn d-inline-block bg-danger-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-200" class="btn d-inline-block bg-danger-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-300" class="btn d-inline-block bg-danger-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-400" class="btn d-inline-block bg-danger-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-500" class="btn d-inline-block bg-danger-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-600" class="btn d-inline-block bg-danger-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-700" class="btn d-inline-block bg-danger-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-800" class="btn d-inline-block bg-danger-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-900" class="btn d-inline-block bg-danger-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-100" class="btn d-inline-block bg-warning-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-200" class="btn d-inline-block bg-warning-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-300" class="btn d-inline-block bg-warning-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-400" class="btn d-inline-block bg-warning-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-500" class="btn d-inline-block bg-warning-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-600" class="btn d-inline-block bg-warning-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-700" class="btn d-inline-block bg-warning-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-800" class="btn d-inline-block bg-warning-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-900" class="btn d-inline-block bg-warning-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-100" class="btn d-inline-block bg-fusion-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-200" class="btn d-inline-block bg-fusion-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-300" class="btn d-inline-block bg-fusion-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-400" class="btn d-inline-block bg-fusion-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-500" class="btn d-inline-block bg-fusion-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-600" class="btn d-inline-block bg-fusion-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-700" class="btn d-inline-block bg-fusion-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-800" class="btn d-inline-block bg-fusion-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-900" class="btn d-inline-block bg-fusion-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="" class="btn d-inline-block bg-white border width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="dropdown-multilevel dropdown-multilevel-left">
+                                                    <div class="dropdown-item">
+                                                        thead color
+                                                    </div>
+                                                    <div class="dropdown-menu no-transition-delay">
+                                                        <div class="js-thead-colors dropdown-multilevel dropdown-multilevel-left d-flex flex-wrap" style="width: 15.9rem; padding: 0.5rem">
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-100" class="btn d-inline-block bg-primary-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-200" class="btn d-inline-block bg-primary-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-300" class="btn d-inline-block bg-primary-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-400" class="btn d-inline-block bg-primary-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-500" class="btn d-inline-block bg-primary-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-600" class="btn d-inline-block bg-primary-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-700" class="btn d-inline-block bg-primary-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-800" class="btn d-inline-block bg-primary-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-primary-900" class="btn d-inline-block bg-primary-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-100" class="btn d-inline-block bg-success-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-200" class="btn d-inline-block bg-success-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-300" class="btn d-inline-block bg-success-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-400" class="btn d-inline-block bg-success-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-500" class="btn d-inline-block bg-success-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-600" class="btn d-inline-block bg-success-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-700" class="btn d-inline-block bg-success-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-800" class="btn d-inline-block bg-success-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-success-900" class="btn d-inline-block bg-success-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-100" class="btn d-inline-block bg-info-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-200" class="btn d-inline-block bg-info-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-300" class="btn d-inline-block bg-info-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-400" class="btn d-inline-block bg-info-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-500" class="btn d-inline-block bg-info-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-600" class="btn d-inline-block bg-info-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-700" class="btn d-inline-block bg-info-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-800" class="btn d-inline-block bg-info-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-info-900" class="btn d-inline-block bg-info-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-100" class="btn d-inline-block bg-danger-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-200" class="btn d-inline-block bg-danger-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-300" class="btn d-inline-block bg-danger-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-400" class="btn d-inline-block bg-danger-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-500" class="btn d-inline-block bg-danger-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-600" class="btn d-inline-block bg-danger-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-700" class="btn d-inline-block bg-danger-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-800" class="btn d-inline-block bg-danger-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-danger-900" class="btn d-inline-block bg-danger-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-100" class="btn d-inline-block bg-warning-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-200" class="btn d-inline-block bg-warning-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-300" class="btn d-inline-block bg-warning-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-400" class="btn d-inline-block bg-warning-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-500" class="btn d-inline-block bg-warning-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-600" class="btn d-inline-block bg-warning-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-700" class="btn d-inline-block bg-warning-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-800" class="btn d-inline-block bg-warning-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-warning-900" class="btn d-inline-block bg-warning-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-100" class="btn d-inline-block bg-fusion-100 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-200" class="btn d-inline-block bg-fusion-200 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-300" class="btn d-inline-block bg-fusion-300 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-400" class="btn d-inline-block bg-fusion-400 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-500" class="btn d-inline-block bg-fusion-500 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-600" class="btn d-inline-block bg-fusion-600 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-700" class="btn d-inline-block bg-fusion-700 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-800" class="btn d-inline-block bg-fusion-800 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="bg-fusion-900" class="btn d-inline-block bg-fusion-900 width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                            <a href="javascript:void(0);" data-bg="" class="btn d-inline-block bg-white border width-2 height-2 p-0 rounded-0" style="margin:1px"></a>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-container show">
+                                        <div class="panel-content">
+                                            <div class="panel-tag">
+                                                This example shows DataTables and the Responsive extension being used with the Bootstrap framework providing the styling. The DataTables / Bootstrap integration provides seamless integration for DataTables to be used in a Bootstrap page. <strong>Note</strong> that the <code>.dt-responsive</code> class is used to indicate to the extension that it should be enabled on this page, as responsive has special meaning in Bootstrap. The responsive option could also be used if required
                                             </div>
                                             <!-- datatable start -->
                                             <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
-                                                <thead class="bg-primary-600">
+                                                <thead>
                                                     <tr>
-                                                        <th>Date</th>
-                                                        <th>Particulars</th>
-                                                        <th>Account</th>
-                                                        <th>Debit</th>
-                                                        <th>Credit</th>
-                                                        <th>Balance</th>
-                                                        <th>Actions</th>
+                                                        <th>Id</th>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Password</th>
+                                                        <th>Number</th>
+                                                        <th>Address</th>
+                                                        <th>Type</th>
+                                                        <th>Status</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+									            <tbody>
+									        <?php
+									        $count = mysqli_num_rows($rs);
+									        for($i =0;$i<$count;$i++)
+									        {
+									            $row = mysqli_fetch_array($rs);
+									            ?>
+									            <tr>
+									                <td><?php echo $row['id']?></td>
+                                                            <td><?=$row['name']?></td>
+                                                            <td><?php echo $row['email']?></td>
+                                                            <td><?php echo $row['number']?></td>
+                                                            <td><?php echo $row['address']?></td>
+                                                            <td><?php echo $row['type']?></td>
+                                                            <td><?php echo $row['status']?></td>
+                                                            <td>
+                                                            <a>Edit</a> 
+                                                            | 
+                                                            <a>Delete</a></td>
+								            </tr>
+								       <?php }
+
+
+
+
+										        ?>
 
                                                 </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                         <th>Id</th>
+                                                         <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Password</th>
+                                                        <th>Number</th>
+                                                        <th>Address</th>
+                                                        <th>Type</th>
+                                                        <th>Status</th>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                             <!-- datatable end -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div
                     </main>
                     <!-- this overlay is activated only when mobile menu is triggered -->
                     <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div> <!-- END Page Content -->
@@ -1563,88 +1746,31 @@ $con = mysqli_connect
 	+ dataTables.select.js							
 	+ datatables.styles.app.js
 	+ datatables.styles.buttons.app.js -->
-        
-        <!-- datatbles buttons bundle contains: 
-	+ "jszip.js",
-	+ "pdfmake.js",
-	+ "vfs_fonts.js"	
-	NOTE: 	The file size is pretty big, but you can always use the
-			build.json file to deselect any components you do not need under "export" -->
         <script src="js/datagrid/datatables/datatables.bundle.js"></script>
-        <script src="js/datagrid/datatables/datatables.export.js"></script>
         <script>
+            /* demo scripts for change table color */
+            /* change background */
+
+
             $(document).ready(function()
             {
-
-                // initialize datatable
                 $('#dt-basic-example').dataTable(
                 {
-                    responsive: true,
-                    lengthChange: false,
-                    dom:
-                        /*	--- Layout Structure 
-                        	--- Options
-                        	l	-	length changing input control
-                        	f	-	filtering input
-                        	t	-	The table!
-                        	i	-	Table information summary
-                        	p	-	pagination control
-                        	r	-	processing display element
-                        	B	-	buttons
-                        	R	-	ColReorder
-                        	S	-	Select
+                    responsive: true
+                });
 
-                        	--- Markup
-                        	< and >				- div element
-                        	<"class" and >		- div with a class
-                        	<"#id" and >		- div with an ID
-                        	<"#id.class" and >	- div with an ID and a class
+                $('.js-thead-colors a').on('click', function()
+                {
+                    var theadColor = $(this).attr("data-bg");
+                    console.log(theadColor);
+                    $('#dt-basic-example thead').removeClassPrefix('bg-').addClass(theadColor);
+                });
 
-                        	--- Further reading
-                        	https://datatables.net/reference/option/dom
-                        	--------------------------------------
-                         */
-                        "<'row mb-3'<'col-sm-12 col-md-6 d-flex align-items-center justify-content-start'f><'col-sm-12 col-md-6 d-flex align-items-center justify-content-end'lB>>" +
-                        "<'row'<'col-sm-12'tr>>" +
-                        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                    buttons: [
-                        /*{
-                        	extend:    'colvis',
-                        	text:      'Column Visibility',
-                        	titleAttr: 'Col visibility',
-                        	className: 'mr-sm-3'
-                        },*/
-                        {
-                            extend: 'pdfHtml5',
-                            text: 'PDF',
-                            titleAttr: 'Generate PDF',
-                            className: 'btn-outline-danger btn-sm mr-1'
-                        },
-                        {
-                            extend: 'excelHtml5',
-                            text: 'Excel',
-                            titleAttr: 'Generate Excel',
-                            className: 'btn-outline-success btn-sm mr-1'
-                        },
-                        {
-                            extend: 'csvHtml5',
-                            text: 'CSV',
-                            titleAttr: 'Generate CSV',
-                            className: 'btn-outline-primary btn-sm mr-1'
-                        },
-                        {
-                            extend: 'copyHtml5',
-                            text: 'Copy',
-                            titleAttr: 'Copy to clipboard',
-                            className: 'btn-outline-primary btn-sm mr-1'
-                        },
-                        {
-                            extend: 'print',
-                            text: 'Print',
-                            titleAttr: 'Print Table',
-                            className: 'btn-outline-primary btn-sm'
-                        }
-                    ]
+                $('.js-tbody-colors a').on('click', function()
+                {
+                    var theadColor = $(this).attr("data-bg");
+                    console.log(theadColor);
+                    $('#dt-basic-example').removeClassPrefix('bg-').addClass(theadColor);
                 });
 
             });
