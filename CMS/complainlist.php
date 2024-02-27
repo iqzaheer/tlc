@@ -7,7 +7,9 @@ require_once("config.php");
 $con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 
 
-$sql = "select * from complains";
+$sql = "SELECT complains.* , users.name AS user_name, category.name as category_name FROM complains 
+            INNER JOIN users ON complains.`user_id` = users.`id`
+            INNER JOIN category ON complains.`category` = category.`id` ;";
 
 $rs = mysqli_query($con,$sql);
 
@@ -285,7 +287,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                                 <thead>
                                                     <tr>
                                                         <th>Id</th>
-                                                        <th>User_Id</th>
+                                                        <th>User Name</th>
                                                         <th>Complain</th>
                                                         <th>Complain Detail</th>
                                                         <th>Date</th>
@@ -304,12 +306,12 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 									            ?>
 									            <tr>
 									                <td><?php echo $row['id']?></td>
-                                                  <td><?=$row['user_id']?></td>
+                                                  <td><?=$row['user_name']?></td>
                                                   <td><?php echo $row['complain']?></td>
                                                   <td><?php echo $row['detail']?></td>
                                                    <td><?php echo $row['date']?></td>
                                                    <td><?php echo $row['status']?></td>
-                                                     <td><?php echo $row['category']?></td>
+                                                     <td><?php echo $row['category_name']?></td>
                                                      <td><?php echo $row['assigned_to']?></td>
                                                      <td>
                                                             <a>Edit</a> 
