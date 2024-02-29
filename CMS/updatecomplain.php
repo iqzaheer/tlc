@@ -1,19 +1,61 @@
 <?php
-
 require_once("config.php");
 
 
+    $con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
+    if(!$con){
+        die();
+    };
 
-$con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
+    
+    //echo "<pre>";
+   // print_r($row);
+
+if(isset($_POST["complain"]) && isset($_POST["id"])){
+
+    //echo "<pre>";    
+    //print_r($_FILES);
 
 
-$sql = "select * from employees";
+    //die();
+    //echo "</pre>";
+    $user_id= $_POST["user_id"];
+    $id= $_POST["id"];
+    $complain = $_POST["complain"];
+    $detail = $_POST["detail"];
+    $status = '1';
+    $category = $_POST["category"];
+    $assigned_to = $_POST["employee"];
+    $date = date("Y-m-d H:i:s");
 
-$rs = mysqli_query($con,$sql);
+   
+   
+    $sql = "update complains set complain='$complain', detail='$detail', user_id='$user_id' where id='$id'";
+    mysqli_query($con,$sql);
 
+    //echo $sql;
 
+    //die();
+
+    header('Location: complainlist.php');
+   // $complanid = mysqli_insert_id($con);
+   
+
+}
+
+        $id = $_GET['id'];
+    //echo $id;
+
+    $sql = "select * from complains where id = '$id'";
+
+    $rs = mysqli_query($con,$sql);
+
+    $complainDetail = mysqli_fetch_array($rs);
 
 ?>
+
+
+
 
 <!DOCTYPE html>
 <!-- 
@@ -28,9 +70,9 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
     <head>
         <meta charset="utf-8">
         <title>
-            Basic - Datatables - SmartAdmin v4.4.1
+            Basic Inputs - Form Stuff - SmartAdmin v4.4.1
         </title>
-        <meta name="description" content="Basic">
+        <meta name="description" content="Basic Inputs">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no, minimal-ui">
         <!-- Call App Mode on ios devices -->
@@ -44,7 +86,6 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         <link rel="apple-touch-icon" sizes="180x180" href="img/favicon/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="img/favicon/favicon-32x32.png">
         <link rel="mask-icon" href="img/favicon/safari-pinned-tab.svg" color="#5bbad5">
-        <link rel="stylesheet" media="screen, print" href="css/datagrid/datatables/datatables.bundle.css">
     </head>
     <body class="mod-bg-1 ">
         <!-- DOC: script to save and load page settings -->
@@ -53,7 +94,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
              *	This script should be placed right after the body tag for fast execution 
              *	Note: the script is written in pure javascript and does not depend on thirdparty library
              **/
-            'use strict';
+            'use strict';   
 
             var classHolder = document.getElementsByTagName("BODY")[0],
                 /** 
@@ -111,100 +152,155 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         <div class="page-wrapper">
             <div class="page-inner">
                 <!-- BEGIN Left Aside -->
-               <?php require_once('leftmenu.php') ?>
+                <?php require_once('leftmenu.php') ?>
                 <!-- END Left Aside -->
                 <div class="page-content-wrapper">
                     <!-- BEGIN Page Header -->
-                  <?php  require_once("header.php") ?>
+                    <?php  require_once('header.php')   ?>
                     <!-- END Page Header -->
                     <!-- BEGIN Page Content -->
                     <!-- the #js-page-content id is needed for some plugins to initialize -->
                     <main id="js-page-content" role="main" class="page-content">
                         <ol class="breadcrumb page-breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li>
-                            <li class="breadcrumb-item">Employee</li>
-                            <li class="breadcrumb-item active">Employee Listing</li>
+                            <li class="breadcrumb-item">Complain</li>
+                            <li class="breadcrumb-item active">Add Complain</li>
                             <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
                         </ol>
-                       
                         
                         <div class="row">
-                            <div class="col-xl-12">
+                            <div class="col-xl-6">
                                 <div id="panel-1" class="panel">
                                     <div class="panel-hdr">
                                         <h2>
-                                            Employee <span class="fw-300"><i>Listing</i></span>
+                                            Add  <span class="fw-300"><i>Complain</i></span>
                                         </h2>
                                         <div class="panel-toolbar">
-                                            <button class="btn btn-primary btn-sm" data-toggle="dropdown" onclick="location.href='add_employee.php'">Add Employee</button>
-                                            
+                                            <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
+                                            <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip" data-offset="0,10" data-original-title="Fullscreen"></button>
+                                            <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button>
                                         </div>
                                     </div>
                                     <div class="panel-container show">
                                         <div class="panel-content">
                                             
-                                            <!-- datatable start -->
-                                            <table id="dt-basic-example" class="table table-bordered table-hover table-striped w-100">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Id</th>
-                                                        <th>Name</th>
-                                                        <th>NIC</th>
-                                                        <th>Address</th>
-                                                        <th>Salary</th>
-                                                        <th>Type</th>
-                                                        <th>Timing</th>
-                                                        
-                                                    </tr>
-                                                </thead>
-									            <tbody>
-									        <?php
-									        $count = mysqli_num_rows($rs);
-									        for($i =0;$i<$count;$i++)
-									        {
-									            $row = mysqli_fetch_array($rs);
-									            ?>
-									            <tr>
-									                <td><?php echo $row['id']?></td>
-                                                  <td><?=$row['name']?></td>
-                                                  <td><?php echo $row['nic']?></td>
-                                                  <td><?php echo $row['address']?></td>
-                                                   <td><?php echo $row['salary']?></td>
-                                                   <td><?php echo $row['type']?></td>
-                                                     <td><?php echo $row['timing']?></td>
+                 <form method='post' action='updatecomplain.php' enctype="multipart/form-data">
+                    <input type='hidden' value="<?=$complainDetail['id']?>" name='id' id='id' />
+                                                <div class="form-group">
+                                                    <label class="form-label" for="simpleinput">User Id</label>
+                            <?php
+
+
+                            $sql = "select * from users where type = 2";
+                            $rs = mysqli_query($con,$sql);
+
+                            $count = mysqli_num_rows($rs);
+
+                            
+
+                            ?>
+
+                            <select id='user_id' name='user_id' class='form-control'>
+                                <option>Select User</option>
+
+                                <?php 
+                                for($i=0;$i<$count;$i++){ 
+                                    $row = mysqli_fetch_array($rs);
+
+                                    $selected= "";
+
+                                    if($row['id'] == $complainDetail['user_id'])
+                                        $selected = "selected";
+                                
+        echo "<option value='$row[id]'  $selected   >".$row['name'].", ".$row['email']."</option>";
+
+                                 } ?>
+
+                            </select>
                                                     
-                                                     <td>
-                                                            <a>Edit</a> 
-                                                            | 
-                                                            <a>Delete</a></td>
-								            </tr>
-								       <?php }
 
 
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label" for="example-email-2">Complain</label>
+                                                    <input type="text" id="email" name="complain" class="form-control" placeholder="Enter Your Complain" required value="<?=$complainDetail['complain']?>">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="form-label" for="example-password">details</label>
+                                                    <input type="text" id="detail" name="detail" class="form-control"  required placeholder="Enter Complain Details" value='<?=$complainDetail['detail']?>'>
+                                                </div>
+                                              
+
+                                                <div class="form-group">
+                                                    <label class="form-label" for="example-palaceholder">Category</label>
+                                            <?php
+                                            $sql = "select * from category";
+
+                                            $rs = mysqli_query($con,$sql);
+
+                                            $count = mysqli_num_rows($rs);
 
 
-										        ?>
+                                            ?>
+                                            <select id='category' name='category' class='form-control'>
+                                                <?php
+                                                    for($i=0;$i<$count;$i++){
+                                                        $row = mysqli_fetch_array($rs);
+                            echo "<option value='".$row['id']."'>".$row['name']."</option>";
+                                                    }
 
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                         <th>Id</th>
-                                                        <th>Name</th>
-                                                        <th>NIC</th>
-                                                        <th>Address</th>
-                                                        <th>Salary</th>
-                                                        <th>Type</th>
-                                                        <th>Timing</th>
+                                                ?>
+                                            </select>
+                                                  
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="form-label" for="example-palaceholder">Assigned_To</label>
+                                                                               <?php
+
+
+                            $sql = "select * from employees";
+                            $rs = mysqli_query($con,$sql);
+
+                            $count = mysqli_num_rows($rs);
+
+                           
+
+
+                            ?>
+
+                            <select id='employee' name='employee' class='form-control'>
+                                <option value='0'>Select Employee</option>
+
+                                <?php 
+                                for($i=0;$i<$count;$i++){ 
+                                    $row = mysqli_fetch_array($rs);
+                                
+                                echo "<option value='".$row['id']."'>".$row['name']."</option>";
+
+                                 } ?>
+
+                            </select>
+                                                    
+ </div>
+                                          
+                                                
+                                                
+                                                <div class="form-group">
+                                                    
+                                                   
+                                                        <button  class="btn btn-primary" id="submit" name='submit' value='Add User'>Update Complain</button>
                                                         
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                            <!-- datatable end -->
+                                                   
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div
+                            
+                           
+                        </div>
                     </main>
                     <!-- this overlay is activated only when mobile menu is triggered -->
                     <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div> <!-- END Page Content -->
@@ -949,53 +1045,15 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 						+ src/../jquery-snippets.js (core) -->
         <script src="js/vendors.bundle.js"></script>
         <script src="js/app.bundle.js"></script>
-        <!-- datatble responsive bundle contains: 
-	+ jquery.dataTables.js
-	+ dataTables.bootstrap4.js
-	+ dataTables.autofill.js							
-	+ dataTables.buttons.js
-	+ buttons.bootstrap4.js
-	+ buttons.html5.js
-	+ buttons.print.js
-	+ buttons.colVis.js
-	+ dataTables.colreorder.js							
-	+ dataTables.fixedcolumns.js							
-	+ dataTables.fixedheader.js						
-	+ dataTables.keytable.js						
-	+ dataTables.responsive.js							
-	+ dataTables.rowgroup.js							
-	+ dataTables.rowreorder.js							
-	+ dataTables.scroller.js							
-	+ dataTables.select.js							
-	+ datatables.styles.app.js
-	+ datatables.styles.buttons.app.js -->
-        <script src="js/datagrid/datatables/datatables.bundle.js"></script>
-        <script>
-            /* demo scripts for change table color */
-            /* change background */
+        <script type="text/javascript">
+            var example_gridsize = $("#example-gridsize");
 
-
-            $(document).ready(function()
+            $("#gridrange").on("input change", function()
             {
-                $('#dt-basic-example').dataTable(
-                {
-                    responsive: true
-                });
-
-                $('.js-thead-colors a').on('click', function()
-                {
-                    var theadColor = $(this).attr("data-bg");
-                    console.log(theadColor);
-                    $('#dt-basic-example thead').removeClassPrefix('bg-').addClass(theadColor);
-                });
-
-                $('.js-tbody-colors a').on('click', function()
-                {
-                    var theadColor = $(this).attr("data-bg");
-                    console.log(theadColor);
-                    $('#dt-basic-example').removeClassPrefix('bg-').addClass(theadColor);
-                });
-
+                //do something
+                example_gridsize.attr("placeholder", ".col-" + $(this).val());
+                example_gridsize.parent().removeClass().addClass("col-" + $(this).val())
+                console.log("col-" + $(this).val());
             });
 
         </script>

@@ -7,7 +7,7 @@ require_once("config.php");
 $con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 
 
-$sql = "select * from employees";
+$sql = "select * from category";
 
 $rs = mysqli_query($con,$sql);
 
@@ -122,8 +122,8 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                     <main id="js-page-content" role="main" class="page-content">
                         <ol class="breadcrumb page-breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li>
-                            <li class="breadcrumb-item">Employee</li>
-                            <li class="breadcrumb-item active">Employee Listing</li>
+                            <li class="breadcrumb-item">Complain</li>
+                            <li class="breadcrumb-item active">Complain Listing</li>
                             <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
                         </ol>
                        
@@ -133,10 +133,10 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                 <div id="panel-1" class="panel">
                                     <div class="panel-hdr">
                                         <h2>
-                                            Employee <span class="fw-300"><i>Listing</i></span>
+                                            Category <span class="fw-300"><i>Listing</i></span>
                                         </h2>
                                         <div class="panel-toolbar">
-                                            <button class="btn btn-primary btn-sm" data-toggle="dropdown" onclick="location.href='add_employee.php'">Add Employee</button>
+                                            <button class="btn btn-primary btn-sm" data-toggle="dropdown" onclick="location.href='add_category.php'">Add Category</button>
                                             
                                         </div>
                                     </div>
@@ -149,11 +149,9 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                                     <tr>
                                                         <th>Id</th>
                                                         <th>Name</th>
-                                                        <th>NIC</th>
-                                                        <th>Address</th>
-                                                        <th>Salary</th>
-                                                        <th>Type</th>
-                                                        <th>Timing</th>
+                                                        <th>Description</th>
+                                                        <th>Status</th>
+                                                        
                                                         
                                                     </tr>
                                                 </thead>
@@ -167,11 +165,9 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
 									            <tr>
 									                <td><?php echo $row['id']?></td>
                                                   <td><?=$row['name']?></td>
-                                                  <td><?php echo $row['nic']?></td>
-                                                  <td><?php echo $row['address']?></td>
-                                                   <td><?php echo $row['salary']?></td>
-                                                   <td><?php echo $row['type']?></td>
-                                                     <td><?php echo $row['timing']?></td>
+                                                  <td><?php echo $row['description']?></td>
+                                                  <td><?php echo $row['status']?></td>
+                                                   
                                                     
                                                      <td>
                                                             <a>Edit</a> 
@@ -188,14 +184,10 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                         <th>Id</th>
+                                                          <th>Id</th>
                                                         <th>Name</th>
-                                                        <th>NIC</th>
-                                                        <th>Address</th>
-                                                        <th>Salary</th>
-                                                        <th>Type</th>
-                                                        <th>Timing</th>
-                                                        
+                                                        <th>Description</th>
+                                                        <th>Status</th>
                                                     </tr>
                                                 </tfoot>
                                             </table>

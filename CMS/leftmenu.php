@@ -103,6 +103,27 @@
                                     
                                 </ul>
                             </li>
+                             <li >
+                                <a href="#" title="Application Intel" data-filter-tags="application intel">
+                                    <i class="fal fa-info-circle"></i>
+                                    <span class="nav-link-text" data-i18n="nav.application_intel">Category</span>
+                                </a>
+                                <ul>
+                                    
+                                      <li class="active">
+                                        <a href="addcategory.php" title="Analytics Dashboard" data-filter-tags="application intel analytics dashboard">
+                                            <span class="nav-link-text" data-i18n="nav.application_intel_analytics_dashboard">Add Category </span>
+                                        </a>
+                                    </li>
+                                    <li class="active">
+                                        <a href="categorylist.php" title="Analytics Dashboard" data-filter-tags="application intel analytics dashboard">
+                                            <span class="nav-link-text" data-i18n="nav.application_intel_analytics_dashboard">Category Listing </span>
+                                        </a>
+                                    </li>
+                                     
+                                    
+                                </ul>
+                            </li>
                             
                         
                           
