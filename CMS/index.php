@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require_once("config.php");
 if(isset($_POST['email']) && isset($_POST['password'])){
@@ -19,6 +20,12 @@ $count = mysqli_num_rows($res);
 
 if($count == 1)
     {
+        $row = mysqli_fetch_array($res);
+
+        $_SESSION['userid'] = $row['id'];
+        $_SESSION['name'] = $row['name'];
+        $_SESSION['email'] = $row['email'];
+        $_SESSION['type'] = $row['type'];
         header("location:dashboard.php");
     }
 

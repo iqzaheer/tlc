@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+
+
+
+if(!isset($_SESSION['userid']))
+    header('Location: index.php');
+
+?>
+
 <!DOCTYPE html>
 <!-- 
 Template Name:  SmartAdmin Responsive WebApp - Template build with Twitter Bootstrap 4

@@ -17,7 +17,7 @@
                             <div class="info-card-text">
                                 <a href="#" class="d-flex align-items-center text-white">
                                     <span class="text-truncate text-truncate-sm d-inline-block">
-                                     Admin 1 | Taha
+                                     <?php echo $_SESSION['name']; ?>
                                     </span>
                                 </a>
                                 <span class="d-inline-block text-truncate text-truncate-sm">Karachi, Pakistan</span>
@@ -28,6 +28,8 @@
                             </a>
                         </div>
                         <ul id="js-nav-menu" class="nav-menu">
+
+                            <?php if($_SESSION['type'] == 1){ ?>
                             <li >
                                 <a href="#" title="Application Intel" data-filter-tags="application intel">
                                     <i class="fal fa-info-circle"></i>
@@ -111,7 +113,7 @@
                                 <ul>
                                     
                                       <li class="active">
-                                        <a href="addcategory.php" title="Analytics Dashboard" data-filter-tags="application intel analytics dashboard">
+                                        <a href="add_category.php" title="Analytics Dashboard" data-filter-tags="application intel analytics dashboard">
                                             <span class="nav-link-text" data-i18n="nav.application_intel_analytics_dashboard">Add Category </span>
                                         </a>
                                     </li>
@@ -125,7 +127,27 @@
                                 </ul>
                             </li>
                             
-                        
+                            <?php } ?>
+
+                            <?php if($_SESSION['type'] == 2) { ?>
+
+                                 <li >
+                                <a href="#" title="Application Intel" data-filter-tags="application intel">
+                                    <i class="fal fa-info-circle"></i>
+                                    <span class="nav-link-text" data-i18n="nav.application_intel">My Complains</span>
+                                </a>
+                                <ul>
+                                    <li class="active">
+                                        <a href="dashboard.php" title="Analytics Dashboard" data-filter-tags="application intel analytics dashboard">
+                                            <span class="nav-link-text" data-i18n="nav.application_intel_analytics_dashboard"> Complain list</span>
+                                        </a>
+                                    </li>
+                                    
+                                    
+                                </ul>
+                            </li>
+
+                            <?php } ?>
                           
                           
                            

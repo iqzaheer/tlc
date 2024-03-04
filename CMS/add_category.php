@@ -1,7 +1,12 @@
 <?php
-
+session_start();
 require_once('config.php');
 
+
+
+
+if(!isset($_SESSION['userid']))
+    header('Location: index.php');
 
 
 if(isset($_POST['name']) && $_POST['description'])
@@ -153,7 +158,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                     <div class="panel-container show">
                                         <div class="panel-content">
                                             
-                                            <form method='post' action='addcategory.php'>
+                                            <form method='post' action='add_category.php'>
                                                
                                                 <div class="form-group">
                                                     <label class="form-label" for="example-email-2">Name</label>

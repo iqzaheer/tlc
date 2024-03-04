@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+
+
+
+if(!isset($_SESSION['userid']))
+    header('Location: index.php');
+
 
 require_once("config.php");
 
@@ -166,7 +174,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                                             <td><?php echo $row['type']?></td>
                                                             <td><?php echo $row['status']?></td>
                                                             <td>
-                                                            <a>Edit</a> 
+                                                            <a href='updateusers.php?id=<?php echo $row['id']?>'>Edit</a> 
                                                             | 
                                                             <a>Delete</a></td>
 								            </tr>
