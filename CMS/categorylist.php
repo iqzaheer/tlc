@@ -1,4 +1,14 @@
 <?php
+session_start();
+
+
+
+
+
+
+if(!isset($_SESSION['userid'])){
+    header('Location: index.php');
+};
 
 require_once("config.php");
 

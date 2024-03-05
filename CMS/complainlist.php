@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+
+if(!isset($_SESSION['userid'])){
+    header('Location: index.php');
+};
 
 require_once("config.php");
 
@@ -121,6 +127,11 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                     <!-- END Page Header -->
                     <!-- BEGIN Page Content -->
                     <!-- the #js-page-content id is needed for some plugins to initialize -->
+                    <?php if(isset($_GET['msg'])) { ?>
+                    <div class="alert alert-danger" role="alert">
+                      <?php echo $_GET['msg'] ?>
+                    </div>
+                    <?php } ?>
                     <main id="js-page-content" role="main" class="page-content">
                         <ol class="breadcrumb page-breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li>
@@ -180,7 +191,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
  <td>
         <a href='updatecomplain.php?id=<?php echo $row['id']?>'>Edit</a> 
         | 
-        <a>Delete</a>
+        <a href='deletecomplain.php?id=<?php echo $row['id']?>'>Delete</a>
         |
         <a>Detail</a>
     </td>

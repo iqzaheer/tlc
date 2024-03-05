@@ -5,8 +5,9 @@ require_once('config.php');
 
 
 
-if(!isset($_SESSION['userid']))
+if(!isset($_SESSION['userid'])){
     header('Location: index.php');
+};
 
 
 if(isset($_POST['name']) && $_POST['description'])

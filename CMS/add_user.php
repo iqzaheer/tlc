@@ -1,13 +1,14 @@
 <?php
-
-require_once('config.php');
 session_start();
 
+require_once('config.php');
+
+ print_r($_SESSION);
 
 
-
-if(!isset($_SESSION['userid']))
+if(!isset($_SESSION['userid'])){
     header('Location: index.php');
+};
 
 
 
