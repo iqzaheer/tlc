@@ -16,6 +16,22 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`cms` /*!40100 DEFAULT CHARACTER SET utf
 
 USE `cms`;
 
+/*Table structure for table `category` */
+
+DROP TABLE IF EXISTS `category`;
+
+CREATE TABLE `category` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(500) DEFAULT NULL,
+  `description` varchar(2500) DEFAULT NULL,
+  `status` tinyint(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+/*Data for the table `category` */
+
+insert  into `category`(`id`,`name`,`description`,`status`) values (1,'Wire Issue','test',1),(2,'Electric Issue',NULL,1),(3,'Mechanincal',NULL,1),(4,'Maintenance',NULL,1),(6,'Network Issue','network problem',1),(7,'Taha','network problem',0);
+
 /*Table structure for table `complains` */
 
 DROP TABLE IF EXISTS `complains`;
@@ -25,16 +41,16 @@ CREATE TABLE `complains` (
   `user_id` int(11) DEFAULT NULL,
   `complain` varchar(50) DEFAULT NULL,
   `detail` varchar(50) DEFAULT NULL,
-  `date` date DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
   `status` varchar(50) DEFAULT NULL,
   `category` varchar(50) DEFAULT NULL,
-  `assigned_to` varchar(50) DEFAULT NULL,
+  `assigned_to` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `complains` */
 
-insert  into `complains`(`id`,`user_id`,`complain`,`detail`,`date`,`status`,`category`,`assigned_to`) values (6,2,'2323','232','2024-02-29','open','open','2');
+insert  into `complains`(`id`,`user_id`,`complain`,`detail`,`date`,`status`,`category`,`assigned_to`) values (1,2,'no working','none','2024-02-21 00:00:00','1','pollution',0),(12,3,'test','test','2024-02-22 16:54:52','1','2',0),(17,3,'test','test','2024-02-27 16:19:42','1','2',8),(18,3,'test','test','2024-02-27 16:19:49','1','2',8),(21,3,'wire check testing','maintanence','2024-03-05 16:55:29','1','4',4);
 
 /*Table structure for table `complains_comments` */
 
@@ -45,11 +61,13 @@ CREATE TABLE `complains_comments` (
   `complain_id` int(50) DEFAULT NULL,
   `user_id` int(50) DEFAULT NULL,
   `comments` varchar(50) DEFAULT NULL,
-  `comments_reply` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `complains_comments` */
+
+insert  into `complains_comments`(`id`,`complain_id`,`user_id`,`comments`,`created_at`) values (4,17,1,'please see its urgremt','2024-03-07 20:04:32'),(5,17,2,'working on it','2024-03-07 20:10:32'),(6,17,4,'issue not fixed','2024-03-07 20:15:32'),(7,17,2,'it fixed','2024-03-07 20:20:32'),(8,17,1,'please check and confirm','2024-03-07 20:30:32'),(9,17,4,'yes its done','2024-03-07 20:40:32');
 
 /*Table structure for table `employees` */
 
@@ -62,13 +80,13 @@ CREATE TABLE `employees` (
   `address` varchar(50) DEFAULT NULL,
   `salary` int(50) DEFAULT NULL,
   `type` varchar(590) DEFAULT NULL,
-  `timing` time NOT NULL,
+  `timing` varchar(453) NOT NULL,
   PRIMARY KEY (`id`,`timing`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `employees` */
 
-insert  into `employees`(`id`,`name`,`nic`,`address`,`salary`,`type`,`timing`) values (1,'ta',NULL,NULL,NULL,NULL,'00:00:00'),(2,'asdfa',NULL,NULL,NULL,NULL,'00:00:00'),(3,'adsf',NULL,NULL,NULL,NULL,'00:00:00');
+insert  into `employees`(`id`,`name`,`nic`,`address`,`salary`,`type`,`timing`) values (1,'ali','4656-4546-5647','karachi',12000,'plumber','00:00:08'),(4,'shayan','5463-4536-7456','lahore',15000,'electrician','00:00:02'),(7,'Taha','4856-4465-4646','karachi,mzc',100000,'engineer','2-9'),(9,'Hasnain','245-4564-6445','lahore',200000,'mechanic','1-5');
 
 /*Table structure for table `users` */
 
@@ -84,11 +102,11 @@ CREATE TABLE `users` (
   `type` tinyint(3) DEFAULT NULL COMMENT '0=Admin,1=user,2=employee',
   `status` varchar(250) DEFAULT NULL COMMENT '0=actice,1=offline',
   PRIMARY KEY (`id`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`name`,`email`,`password`,`number`,`address`,`type`,`status`) values (1,'Admin','admin@gmail.com','admin123','03111111111','karachi',1,'1'),(2,'ahsan baber','ahsan@test.com','21312','432423423423','karachi',2,'1'),(3,'Taha','taha@gmail.com','112233','2343243243243','karachi',2,'1'),(4,'Taha','taha@gmail.com','112233','2343243243243','karachi',2,'1'),(12,'Taha','taha@gmail.com','123456','93232632','mzc',2,'1'),(13,'ahsan','ahsan@124.com','123457','232','karachi',2,'1');
+insert  into `users`(`id`,`name`,`email`,`password`,`number`,`address`,`type`,`status`) values (1,'Admin','admin@gmail.com','admin123','03111111111','karachi',1,'1'),(2,'Taha','ahsan@test.com','123456','43242342342334','karachi',2,'1'),(3,'3','taha@gmail.com','112233','2343243243243324','karachi',2,'1'),(4,'Taha','taha@gmail.com','112233','2343243243243','karachi',2,'1'),(12,'Taha','taha@gmail.com','123456','93232632','mzc',2,'1'),(13,'ahsan','ahsan@124.com','123457','232','karachi',2,'1'),(14,'test asdfsd','dafd@gmail.com','32sdfasd','324324324',NULL,2,'1'),(17,'Taha','taha@gmail.com','32432','324','23423',2,'1'),(18,'Zeeshan','zeeshan@gmail.com','zeeshan123','3154894648','karachi,pakistan',2,'1'),(20,'Azaibi','azaib@test.com','123456','923333333','karachi',2,'1'),(21,'ali ali ','ali@gmail.com','112233','656546464',NULL,2,'1');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

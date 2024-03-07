@@ -1,40 +1,55 @@
 <?php
 session_start();
-
-require_once('config.php');
-
+require_once("config.php");
 
 
 
 
 
-
-if(isset($_POST['name']) && $_POST['type'])
-{
-
-//echo "here....";
-    $name = $_POST['name'];
-    $nic = $_POST['nic'];
-    $salary = $_POST['salary'];
-    $address = $_POST['address'];
-    $type = $_POST['type'];
-    $timing = $_POST['timing'];
+    
 
     $con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
     if(!$con){
         die();
-    }
+    };
 
-    $sql = "INSERT INTO `employees`(`name`, `nic`, `address`, `salary`, `type`, `timing`) VALUES
-                                   ('$name','$nic','$address','$salary','$type','$timing')";
+    $id = $_GET['id'];
+if(isset($_POST["complain"]) && isset($_POST["user_id"])){
 
-    mysqli_query($con,$sql);    
-    // echo $sql;
-    header("employeelist.php");
+    //echo "<pre>";
+    
+    //print_r($_FILES);
+
+    $uploadname = "uploads/".date("YmdHis").$_FILES['image']['name'];
+
+    move_uploaded_file($_FILES['image']['tmp_name'],$uploadname);
+    //die();
+    //echo "</pre>";
+    $user_id= $_POST["user_id"];
+    $complain = $_POST["complain"];
+    $detail = $_POST["detail"];
+    $status = '1';
+    $category = $_POST["category"];
+    $assigned_to = $_POST["employee"];
+    $date = date("Y-m-d H:i:s");
+
+    $sql = "INSERT INTO `complains`( `user_id`, `complain`, `detail`, `date`, `status`, `category`, `assigned_to`) VALUES ('$user_id','$complain','$detail','$date','$status','$category','$assigned_to');";
+    mysqli_query($con,$sql);
+
+    $complanid = mysqli_insert_id($con);
+    
+    $sql = "INSERT INTO `cms`.`attachments`     (  `complain_id`,    `file_name`,   `user_id`,     `created_at`)
+                        VALUES ('$complanid','$uploadname','0',NOW());";
+        mysqli_query($con,$sql);
 
 }
 
+
 ?>
+
+
+
+
 <!DOCTYPE html>
 <!-- 
 Template Name:  SmartAdmin Responsive WebApp - Template build with Twitter Bootstrap 4
@@ -69,10 +84,10 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         <!-- DOC: script to save and load page settings -->
         <script>
             /**
-             *  This script should be placed right after the body tag for fast execution 
-             *  Note: the script is written in pure javascript and does not depend on thirdparty library
+             *	This script should be placed right after the body tag for fast execution 
+             *	Note: the script is written in pure javascript and does not depend on thirdparty library
              **/
-            'use strict';
+            'use strict';   
 
             var classHolder = document.getElementsByTagName("BODY")[0],
                 /** 
@@ -141,8 +156,8 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                     <main id="js-page-content" role="main" class="page-content">
                         <ol class="breadcrumb page-breadcrumb">
                             <li class="breadcrumb-item"><a href="javascript:void(0);">CMS</a></li>
-                            <li class="breadcrumb-item">Employee</li>
-                            <li class="breadcrumb-item active">Add Employee</li>
+                            <li class="breadcrumb-item">Complain</li>
+                            <li class="breadcrumb-item active">Add Complain</li>
                             <li class="position-absolute pos-top pos-right d-none d-sm-block"><span class="js-get-date"></span></li>
                         </ol>
                         
@@ -151,7 +166,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                 <div id="panel-1" class="panel">
                                     <div class="panel-hdr">
                                         <h2>
-                                            User  <span class="fw-300"><i>Form</i></span>
+                                            <span class="fw-300"><i>Complain Detail</i></span>
                                         </h2>
                                         <div class="panel-toolbar">
                                             <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10" data-original-title="Collapse"></button>
@@ -162,41 +177,104 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                     <div class="panel-container show">
                                         <div class="panel-content">
                                             
-                                            <form method='post' action='add_employee.php'>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="simpleinput">Name</label>
-                                                    <input type="text" id="name" name="name" class="form-control" required placeholder="Name">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="example-email-2">NIC</label>
-                                                    <input type="text" id="nic" name="nic" class="form-control" placeholder="Enter Your NIC" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="example-password">Salary</label>
-                                                    <input type="text" id="salary" name="salary" class="form-control"  required placeholder="Salary ">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="example-palaceholder">Address</label>
-                                                    <input type="text" id="address" name='address' class="form-control" placeholder="Address">
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="form-label" for="example-palaceholder">Type</label>
-                                                    <input type="text" id="type" name='type' class="form-control" placeholder="Your Type" >
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="form-label" for="example-palaceholder">Timing</label>
-                                                    <input type="text" id="timing" name='timing' class="form-control" placeholder="Your Timing" >
-                                                </div>
-                                                
-                                                
+                                            <form method='post' action='add_complain.php' enctype="multipart/form-data">
                                                 <div class="form-group">
                                                     
+                                                    <div class="card border mb-g">
+                                    <div class="card-body pl-4 pt-4 pr-4 pb-0">
+                                        <div class="d-flex flex-column">
+                                            <div class="border-0 flex-1 position-relative shadow-top">
+                                                <div class="pt-2 pb-1 pr-0 pl-0 rounded-0 position-relative" tabindex="-1">
+                                                    <span class="profile-image rounded-circle d-block position-absolute" style="background-image:url('img/admin.png'); background-size: cover;"></span>
+                                                    <div class="pl-5 ml-5">
+                                                        <textarea class="form-control border-0 p-0 fs-xl bg-transparent" rows="4" placeholder="What's on your mind Codex?..."></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="height-8 d-flex flex-row align-items-center flex-wrap flex-shrink-0">
+                                                <a href="javascript:void(0);" class="btn btn-icon fs-xl width-1 mr-1 waves-effect waves-themed" data-toggle="tooltip" data-original-title="More options" data-placement="top">
+                                                    <i class="fal fa-ellipsis-v-alt color-fusion-300"></i>
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-icon fs-xl mr-1 waves-effect waves-themed" data-toggle="tooltip" data-original-title="Attach files" data-placement="top">
+                                                    <i class="fal fa-paperclip color-fusion-300"></i>
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-icon fs-xl mr-1 waves-effect waves-themed" data-toggle="tooltip" data-original-title="Insert photo" data-placement="top">
+                                                    <i class="fal fa-camera color-fusion-300"></i>
+                                                </a>
+                                                <button class="btn btn-info shadow-0 ml-auto waves-effect waves-themed">Post</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 
+
+
+                                                </div>
+
+
+                        <?php 
+                            $sql = "select cc.*, u.name, u.email from complains_comments cc 
+                                        inner join users u on u.id = cc.user_id
+                                        where complain_id = '$id'";
+
+                           // echo $sql;
+                            $rs = mysqli_query($con,$sql);
+
+                            $count = mysqli_num_rows($rs);
+
+
+                            for($i=0;$i<$count;$i++){   
+
+                                $row = mysqli_fetch_array($rs);
+
+                                ?>
+
+                                  <div class="form-group">
+                                                   <div class="card-body pb-0 px-4">
+                                        <div class="d-flex flex-row pb-3 pt-2  border-top-0 border-left-0 border-right-0">
+                                            <div class="d-inline-block align-middle status status-success mr-3">
+                                                <span class="profile-image rounded-circle d-block" style="background-image:url('img/demo/avatars/avatar-e.png'); background-size: cover;"></span>
+                                            </div>
+                                            <h5 class="mb-0 flex-1 text-dark fw-500">
+                                                <?php echo $row['name'] ?>
+                                                <small class="m-0 l-h-n">
+                                                    <?php echo $row['email'] ?>
+                                                </small>
+                                            </h5>
+                                            <span class="text-muted fs-xs opacity-70">
+                                                <?php echo $row['created_at']?>
+                                            </span>
+                                        </div>
+                                        <div class="pb-3 pt-2 border-top-0 border-left-0 border-right-0 text-muted">
+                                            <?php echo $row['comments']; ?>
+                                        </div>
+                                        
+                                    </div>
+                                                </div>
+
+
+
+
+                       <?php     }
+
+                        ?>
+                                              
+                                               
+
+                                              
+
+                                              
+                                        
+ 
+                                                
+                                                
+                                             <!--    <div class="form-group">
+                                                    
                                                    
-                                                        <button  class="btn btn-primary" id="submit" name='submit' value='Add User'>Add Employee</button>
+                                                        <button  class="btn btn-primary" id="submit" name='submit' value='Add User'>Add Complain</button>
                                                         
                                                    
-                                                </div>
+                                                </div> -->
                                             </form>
                                         </div>
                                     </div>
@@ -273,68 +351,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                     <!-- BEGIN Color profile -->
                     <!-- this area is hidden and will not be seen on screens or screen readers -->
                     <!-- we use this only for CSS color refernce for JS stuff -->
-                    <p id="js-color-profile" class="d-none">
-                        <span class="color-primary-50"></span>
-                        <span class="color-primary-100"></span>
-                        <span class="color-primary-200"></span>
-                        <span class="color-primary-300"></span>
-                        <span class="color-primary-400"></span>
-                        <span class="color-primary-500"></span>
-                        <span class="color-primary-600"></span>
-                        <span class="color-primary-700"></span>
-                        <span class="color-primary-800"></span>
-                        <span class="color-primary-900"></span>
-                        <span class="color-info-50"></span>
-                        <span class="color-info-100"></span>
-                        <span class="color-info-200"></span>
-                        <span class="color-info-300"></span>
-                        <span class="color-info-400"></span>
-                        <span class="color-info-500"></span>
-                        <span class="color-info-600"></span>
-                        <span class="color-info-700"></span>
-                        <span class="color-info-800"></span>
-                        <span class="color-info-900"></span>
-                        <span class="color-danger-50"></span>
-                        <span class="color-danger-100"></span>
-                        <span class="color-danger-200"></span>
-                        <span class="color-danger-300"></span>
-                        <span class="color-danger-400"></span>
-                        <span class="color-danger-500"></span>
-                        <span class="color-danger-600"></span>
-                        <span class="color-danger-700"></span>
-                        <span class="color-danger-800"></span>
-                        <span class="color-danger-900"></span>
-                        <span class="color-warning-50"></span>
-                        <span class="color-warning-100"></span>
-                        <span class="color-warning-200"></span>
-                        <span class="color-warning-300"></span>
-                        <span class="color-warning-400"></span>
-                        <span class="color-warning-500"></span>
-                        <span class="color-warning-600"></span>
-                        <span class="color-warning-700"></span>
-                        <span class="color-warning-800"></span>
-                        <span class="color-warning-900"></span>
-                        <span class="color-success-50"></span>
-                        <span class="color-success-100"></span>
-                        <span class="color-success-200"></span>
-                        <span class="color-success-300"></span>
-                        <span class="color-success-400"></span>
-                        <span class="color-success-500"></span>
-                        <span class="color-success-600"></span>
-                        <span class="color-success-700"></span>
-                        <span class="color-success-800"></span>
-                        <span class="color-success-900"></span>
-                        <span class="color-fusion-50"></span>
-                        <span class="color-fusion-100"></span>
-                        <span class="color-fusion-200"></span>
-                        <span class="color-fusion-300"></span>
-                        <span class="color-fusion-400"></span>
-                        <span class="color-fusion-500"></span>
-                        <span class="color-fusion-600"></span>
-                        <span class="color-fusion-700"></span>
-                        <span class="color-fusion-800"></span>
-                        <span class="color-fusion-900"></span>
-                    </p>
+                   
                     <!-- END Color profile -->
                 </div>
             </div>
@@ -342,341 +359,10 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         <!-- END Page Wrapper -->
         <!-- BEGIN Quick Menu -->
         <!-- to add more items, please make sure to change the variable '$menu-items: number;' in your _page-components-shortcut.scss -->
-        <nav class="shortcut-menu d-none d-sm-block">
-            <input type="checkbox" class="menu-open" name="menu-open" id="menu_open" />
-            <label for="menu_open" class="menu-open-button ">
-                <span class="app-shortcut-icon d-block"></span>
-            </label>
-            <a href="#" class="menu-item btn" data-toggle="tooltip" data-placement="left" title="Scroll Top">
-                <i class="fal fa-arrow-up"></i>
-            </a>
-            <a href="page_login.html" class="menu-item btn" data-toggle="tooltip" data-placement="left" title="Logout">
-                <i class="fal fa-sign-out"></i>
-            </a>
-            <a href="#" class="menu-item btn" data-action="app-fullscreen" data-toggle="tooltip" data-placement="left" title="Full Screen">
-                <i class="fal fa-expand"></i>
-            </a>
-            <a href="#" class="menu-item btn" data-action="app-print" data-toggle="tooltip" data-placement="left" title="Print page">
-                <i class="fal fa-print"></i>
-            </a>
-            <a href="#" class="menu-item btn" data-action="app-voice" data-toggle="tooltip" data-placement="left" title="Voice command">
-                <i class="fal fa-microphone"></i>
-            </a>
-        </nav>
+       
         <!-- END Quick Menu -->
         <!-- BEGIN Messenger -->
-        <div class="modal fade js-modal-messenger modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-right">
-                <div class="modal-content h-100">
-                    <div class="dropdown-header bg-trans-gradient d-flex align-items-center w-100">
-                        <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
-                            <span class="mr-2">
-                                <span class="rounded-circle profile-image d-block" style="background-image:url('img/demo/avatars/avatar-d.png'); background-size: cover;"></span>
-                            </span>
-                            <div class="info-card-text">
-                                <a href="javascript:void(0);" class="fs-lg text-truncate text-truncate-lg text-white" data-toggle="dropdown" aria-expanded="false">
-                                    Tracey Chang
-                                    <i class="fal fa-angle-down d-inline-block ml-1 text-white fs-md"></i>
-                                </a>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Send Email</a>
-                                    <a class="dropdown-item" href="#">Create Appointment</a>
-                                    <a class="dropdown-item" href="#">Block User</a>
-                                </div>
-                                <span class="text-truncate text-truncate-md opacity-80">IT Director</span>
-                            </div>
-                        </div>
-                        <button type="button" class="close text-white position-absolute pos-top pos-right p-2 m-1 mr-2" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i class="fal fa-times"></i></span>
-                        </button>
-                    </div>
-                    <div class="modal-body p-0 h-100 d-flex">
-                        <!-- BEGIN msgr-list -->
-                        <div class="msgr-list d-flex flex-column bg-faded border-faded border-top-0 border-right-0 border-bottom-0 position-absolute pos-top pos-bottom">
-                            <div>
-                                <div class="height-4 width-3 h3 m-0 d-flex justify-content-center flex-column color-primary-500 pl-3 mt-2">
-                                    <i class="fal fa-search"></i>
-                                </div>
-                                <input type="text" class="form-control bg-white" id="msgr_listfilter_input" placeholder="Filter contacts" aria-label="FriendSearch" data-listfilter="#js-msgr-listfilter">
-                            </div>
-                            <div class="flex-1 h-100 custom-scroll">
-                                <div class="w-100">
-                                    <ul id="js-msgr-listfilter" class="list-unstyled m-0">
-                                        <li>
-                                            <a href="#" class="d-table w-100 px-2 py-2 text-dark hover-white" data-filter-tags="tracey chang online">
-                                                <div class="d-table-cell align-middle status status-success status-sm ">
-                                                    <span class="profile-image-md rounded-circle d-block" style="background-image:url('img/demo/avatars/avatar-d.png'); background-size: cover;"></span>
-                                                </div>
-                                                <div class="d-table-cell w-100 align-middle pl-2 pr-2">
-                                                    <div class="text-truncate text-truncate-md">
-                                                        Tracey Chang
-                                                        <small class="d-block font-italic text-success fs-xs">
-                                                            Online
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="d-table w-100 px-2 py-2 text-dark hover-white" data-filter-tags="oliver kopyuv online">
-                                                <div class="d-table-cell align-middle status status-success status-sm ">
-                                                    <span class="profile-image-md rounded-circle d-block" style="background-image:url('img/demo/avatars/avatar-b.png'); background-size: cover;"></span>
-                                                </div>
-                                                <div class="d-table-cell w-100 align-middle pl-2 pr-2">
-                                                    <div class="text-truncate text-truncate-md">
-                                                        Oliver Kopyuv
-                                                        <small class="d-block font-italic text-success fs-xs">
-                                                            Online
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="d-table w-100 px-2 py-2 text-dark hover-white" data-filter-tags="dr john cook phd away">
-                                                <div class="d-table-cell align-middle status status-warning status-sm ">
-                                                    <span class="profile-image-md rounded-circle d-block" style="background-image:url('img/demo/avatars/avatar-e.png'); background-size: cover;"></span>
-                                                </div>
-                                                <div class="d-table-cell w-100 align-middle pl-2 pr-2">
-                                                    <div class="text-truncate text-truncate-md">
-                                                        Dr. John Cook PhD
-                                                        <small class="d-block font-italic fs-xs">
-                                                            Away
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="d-table w-100 px-2 py-2 text-dark hover-white" data-filter-tags="ali amdaney online">
-                                                <div class="d-table-cell align-middle status status-success status-sm ">
-                                                    <span class="profile-image-md rounded-circle d-block" style="background-image:url('img/demo/avatars/avatar-g.png'); background-size: cover;"></span>
-                                                </div>
-                                                <div class="d-table-cell w-100 align-middle pl-2 pr-2">
-                                                    <div class="text-truncate text-truncate-md">
-                                                        Ali Amdaney
-                                                        <small class="d-block font-italic fs-xs text-success">
-                                                            Online
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="d-table w-100 px-2 py-2 text-dark hover-white" data-filter-tags="sarah mcbrook online">
-                                                <div class="d-table-cell align-middle status status-success status-sm">
-                                                    <span class="profile-image-md rounded-circle d-block" style="background-image:url('img/demo/avatars/avatar-h.png'); background-size: cover;"></span>
-                                                </div>
-                                                <div class="d-table-cell w-100 align-middle pl-2 pr-2">
-                                                    <div class="text-truncate text-truncate-md">
-                                                        Sarah McBrook
-                                                        <small class="d-block font-italic fs-xs text-success">
-                                                            Online
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="d-table w-100 px-2 py-2 text-dark hover-white" data-filter-tags="ali amdaney offline">
-                                                <div class="d-table-cell align-middle status status-sm">
-                                                    <span class="profile-image-md rounded-circle d-block" style="background-image:url('img/demo/avatars/avatar-a.png'); background-size: cover;"></span>
-                                                </div>
-                                                <div class="d-table-cell w-100 align-middle pl-2 pr-2">
-                                                    <div class="text-truncate text-truncate-md">
-                                                        oliver.kopyuv@gotbootstrap.com
-                                                        <small class="d-block font-italic fs-xs">
-                                                            Offline
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="d-table w-100 px-2 py-2 text-dark hover-white" data-filter-tags="ali amdaney busy">
-                                                <div class="d-table-cell align-middle status status-danger status-sm">
-                                                    <span class="profile-image-md rounded-circle d-block" style="background-image:url('img/demo/avatars/avatar-j.png'); background-size: cover;"></span>
-                                                </div>
-                                                <div class="d-table-cell w-100 align-middle pl-2 pr-2">
-                                                    <div class="text-truncate text-truncate-md">
-                                                        oliver.kopyuv@gotbootstrap.com
-                                                        <small class="d-block font-italic fs-xs text-danger">
-                                                            Busy
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="d-table w-100 px-2 py-2 text-dark hover-white" data-filter-tags="ali amdaney offline">
-                                                <div class="d-table-cell align-middle status status-sm">
-                                                    <span class="profile-image-md rounded-circle d-block" style="background-image:url('img/demo/avatars/avatar-c.png'); background-size: cover;"></span>
-                                                </div>
-                                                <div class="d-table-cell w-100 align-middle pl-2 pr-2">
-                                                    <div class="text-truncate text-truncate-md">
-                                                        oliver.kopyuv@gotbootstrap.com
-                                                        <small class="d-block font-italic fs-xs">
-                                                            Offline
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="d-table w-100 px-2 py-2 text-dark hover-white" data-filter-tags="ali amdaney inactive">
-                                                <div class="d-table-cell align-middle">
-                                                    <span class="profile-image-md rounded-circle d-block" style="background-image:url('img/demo/avatars/avatar-m.png'); background-size: cover;"></span>
-                                                </div>
-                                                <div class="d-table-cell w-100 align-middle pl-2 pr-2">
-                                                    <div class="text-truncate text-truncate-md">
-                                                        +714651347790
-                                                        <small class="d-block font-italic fs-xs opacity-50">
-                                                            Missed Call
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <div class="filter-message js-filter-message"></div>
-                                </div>
-                            </div>
-                            <div>
-                                <a class="fs-xl d-flex align-items-center p-3">
-                                    <i class="fal fa-cogs"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- END msgr-list -->
-                        <!-- BEGIN msgr -->
-                        <div class="msgr d-flex h-100 flex-column bg-white">
-                            <!-- BEGIN custom-scroll -->
-                            <div class="custom-scroll flex-1 h-100">
-                                <div id="chat_container" class="w-100 p-4">
-                                    <!-- start .chat-segment -->
-                                    <div class="chat-segment">
-                                        <div class="time-stamp text-center mb-2 fw-400">
-                                            Jun 19
-                                        </div>
-                                    </div>
-                                    <!--  end .chat-segment -->
-                                    <!-- start .chat-segment -->
-                                    <div class="chat-segment chat-segment-sent">
-                                        <div class="chat-message">
-                                            <p>
-                                                Hey Tracey, did you get my files?
-                                            </p>
-                                        </div>
-                                        <div class="text-right fw-300 text-muted mt-1 fs-xs">
-                                            3:00 pm
-                                        </div>
-                                    </div>
-                                    <!--  end .chat-segment -->
-                                    <!-- start .chat-segment -->
-                                    <div class="chat-segment chat-segment-get">
-                                        <div class="chat-message">
-                                            <p>
-                                                Hi
-                                            </p>
-                                            <p>
-                                                Sorry going through a busy time in office. Yes I analyzed the solution.
-                                            </p>
-                                            <p>
-                                                It will require some resource, which I could not manage.
-                                            </p>
-                                        </div>
-                                        <div class="fw-300 text-muted mt-1 fs-xs">
-                                            3:24 pm
-                                        </div>
-                                    </div>
-                                    <!--  end .chat-segment -->
-                                    <!-- start .chat-segment -->
-                                    <div class="chat-segment chat-segment-sent chat-start">
-                                        <div class="chat-message">
-                                            <p>
-                                                Okay
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <!--  end .chat-segment -->
-                                    <!-- start .chat-segment -->
-                                    <div class="chat-segment chat-segment-sent chat-end">
-                                        <div class="chat-message">
-                                            <p>
-                                                Sending you some dough today, you can allocate the resources to this project.
-                                            </p>
-                                        </div>
-                                        <div class="text-right fw-300 text-muted mt-1 fs-xs">
-                                            3:26 pm
-                                        </div>
-                                    </div>
-                                    <!--  end .chat-segment -->
-                                    <!-- start .chat-segment -->
-                                    <div class="chat-segment chat-segment-get chat-start">
-                                        <div class="chat-message">
-                                            <p>
-                                                Perfect. Thanks a lot!
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <!--  end .chat-segment -->
-                                    <!-- start .chat-segment -->
-                                    <div class="chat-segment chat-segment-get">
-                                        <div class="chat-message">
-                                            <p>
-                                                I will have them ready by tonight.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <!--  end .chat-segment -->
-                                    <!-- start .chat-segment -->
-                                    <div class="chat-segment chat-segment-get chat-end">
-                                        <div class="chat-message">
-                                            <p>
-                                                Cheers
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <!--  end .chat-segment -->
-                                    <!-- start .chat-segment for timestamp -->
-                                    <div class="chat-segment">
-                                        <div class="time-stamp text-center mb-2 fw-400">
-                                            Jun 20
-                                        </div>
-                                    </div>
-                                    <!--  end .chat-segment for timestamp -->
-                                </div>
-                            </div>
-                            <!-- END custom-scroll  -->
-                            <!-- BEGIN msgr__chatinput -->
-                            <div class="d-flex flex-column">
-                                <div class="border-faded border-right-0 border-bottom-0 border-left-0 flex-1 mr-3 ml-3 position-relative shadow-top">
-                                    <div class="pt-3 pb-1 pr-0 pl-0 rounded-0" tabindex="-1">
-                                        <div id="msgr_input" contenteditable="true" data-placeholder="Type your message here..." class="height-10 form-content-editable"></div>
-                                    </div>
-                                </div>
-                                <div class="height-8 px-3 d-flex flex-row align-items-center flex-wrap flex-shrink-0">
-                                    <a href="javascript:void(0);" class="btn btn-icon fs-xl width-1 mr-1" data-toggle="tooltip" data-original-title="More options" data-placement="top">
-                                        <i class="fal fa-ellipsis-v-alt color-fusion-300"></i>
-                                    </a>
-                                    <a href="javascript:void(0);" class="btn btn-icon fs-xl mr-1" data-toggle="tooltip" data-original-title="Attach files" data-placement="top">
-                                        <i class="fal fa-paperclip color-fusion-300"></i>
-                                    </a>
-                                    <a href="javascript:void(0);" class="btn btn-icon fs-xl mr-1" data-toggle="tooltip" data-original-title="Insert photo" data-placement="top">
-                                        <i class="fal fa-camera color-fusion-300"></i>
-                                    </a>
-                                    <div class="ml-auto">
-                                        <a href="javascript:void(0);" class="btn btn-info">Send</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END msgr__chatinput -->
-                        </div>
-                        <!-- END msgr -->
-                    </div>
-                </div>
-            </div>
-        </div>
+       
         <!-- END Messenger -->
         <!-- BEGIN Page Settings -->
         <div class="modal fade js-modal-settings modal-backdrop-transparent" tabindex="-1" role="dialog" aria-hidden="true">
@@ -935,18 +621,18 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
         </div>
         <!-- END Page Settings -->
         <!-- base vendor bundle: 
-             DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations 
-                        + pace.js (recommended)
-                        + jquery.js (core)
-                        + jquery-ui-cust.js (core)
-                        + popper.js (core)
-                        + bootstrap.js (core)
-                        + slimscroll.js (extension)
-                        + app.navigation.js (core)
-                        + ba-throttle-debounce.js (core)
-                        + waves.js (extension)
-                        + smartpanels.js (extension)
-                        + src/../jquery-snippets.js (core) -->
+			 DOC: if you remove pace.js from core please note on Internet Explorer some CSS animations may execute before a page is fully loaded, resulting 'jump' animations 
+						+ pace.js (recommended)
+						+ jquery.js (core)
+						+ jquery-ui-cust.js (core)
+						+ popper.js (core)
+						+ bootstrap.js (core)
+						+ slimscroll.js (extension)
+						+ app.navigation.js (core)
+						+ ba-throttle-debounce.js (core)
+						+ waves.js (extension)
+						+ smartpanels.js (extension)
+						+ src/../jquery-snippets.js (core) -->
         <script src="js/vendors.bundle.js"></script>
         <script src="js/app.bundle.js"></script>
         <script type="text/javascript">

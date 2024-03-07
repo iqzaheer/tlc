@@ -3,14 +3,6 @@ session_start();
 require_once("config.php");
 
 
-
-
-if(!isset($_SESSION['userid'])){
-    header('Location: index.php');
-};
-
-
-
     $con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
     if(!$con){
         die();

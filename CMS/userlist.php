@@ -4,8 +4,7 @@ session_start();
 
 
 
-if(!isset($_SESSION['userid']))
-    header('Location: index.php');
+
 
 
 require_once("config.php");
@@ -15,7 +14,7 @@ require_once("config.php");
 $con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
 
 
-$sql = "select * from users";
+$sql = "select * from users where type = 2";
 
 $rs = mysqli_query($con,$sql);
 

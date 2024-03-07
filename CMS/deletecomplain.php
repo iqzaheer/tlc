@@ -13,7 +13,7 @@ $sql = "delete from complains where id = '$id' ";
 $res = mysqli_query($con, $sql);
 
 if($res){
-	header("location:complainlist.php?msg='deleted success'");
+	header("location:complainlist.php?msg='Deleted successfully'");
 }
 
 ?>

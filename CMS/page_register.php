@@ -5,9 +5,7 @@ require_once("config.php");
 
 
 
-if(!isset($_SESSION['userid'])){
-    header('Location: index.php');
-};
+
     if(isset($_POST['fname']) && $_POST['fname'] != '' && $_POST['emailverify'] !=''){
 
     $name = $_POST["fname"];

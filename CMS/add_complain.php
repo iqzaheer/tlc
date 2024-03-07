@@ -5,9 +5,6 @@ require_once("config.php");
 
 
 
-if(!isset($_SESSION['userid'])){
-    header('Location: index.php');
-};
 
     if($_SESSION['type'] != 1)
     {
@@ -268,7 +265,8 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                 for($i=0;$i<$count;$i++){ 
                                     $row = mysqli_fetch_array($rs);
                                 
-                                echo "<option value='".$row['id']."'>".$row['name']."</option>";
+                                echo "<option value='".$row['id']."'>".$row['name']."
+                                  , ".$row['type']."</option>";
 
                                  } ?>
 
@@ -278,7 +276,7 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                         
    <div class="form-group">
                         <label class="form-label" for="example-password">Attachment</label>
-                        <input type="file" id="image" name="image" class="form-control"  required placeholder="Enter Complain Details" multiple>
+                        <input type="file" id="image" name="image" class="form-control"   placeholder="Enter Complain Details" multiple>
                     </div>
                                                 
                                                 

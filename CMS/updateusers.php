@@ -2,15 +2,6 @@
 session_start();
 require_once("config.php");
 
-
-
-
-if(!isset($_SESSION['userid'])){
-    header('Location: index.php');
-};
-
-
-
     $con = mysqli_connect(DB_HOST,DB_USER,DB_PASS,DB_NAME);
     if(!$con){
         die();
@@ -24,29 +15,28 @@ if(isset($_POST["email"]) && isset($_POST["id"])){
 
     //echo "<pre>";    
     //print_r($_FILES);
+    $id = $_POST["id"];
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $status = '1';
+    $address = $_POST["address"];
+    $number = $_POST["number"];
 
 
     //die();
     //echo "</pre>";
-    $user_id= $_POST["user_id"];
-    $id= $_POST["id"];
-    $complain = $_POST["complain"];
-    $detail = $_POST["detail"];
-    $status = '1';
-    $category = $_POST["category"];
-    $assigned_to = $_POST["employee"];
-    $date = date("Y-m-d H:i:s");
+  
 
    
    
-    $sql = "update users set name='$name', email = '$email' , number = '$number', address = '$address', type= '$type' where id='$id'";
+    $sql = "update users set name='$name', email = '$email' , number = '$number', address = '$address' where id='$id'";
     mysqli_query($con,$sql);
 
-    //echo $sql;
+   // print_r( $sql);
 
     //die();
 
-    header('Location: userlist.php');
+    //header('Location: userlist.php');
    // $complanid = mysqli_insert_id($con);
    
 
@@ -54,12 +44,12 @@ if(isset($_POST["email"]) && isset($_POST["id"])){
 
         $id = $_GET['id'];
     //echo $id;
+        $sql = "SELECT * FROM users WHERE id = '$id';";
+        //echo $sql;
+        $res = mysqli_query($con,$sql);
+        $user_detail = mysqli_fetch_array($res);
+        //print_r($user_detail);
 
-    $sql = "select * from users where id = '$id'";
-
-    $rs = mysqli_query($con,$sql);
-
-    $userDetail = mysqli_fetch_array($rs);
 
 ?>
 
@@ -194,111 +184,41 @@ License: You must have a valid license purchased only from wrapbootstrap.com (li
                                         <div class="panel-content">
                                             
                  <form method='post' action='updateusers.php' enctype="multipart/form-data">
-                    <input type='hidden' value="<?=$userDetail['id']?>" name='id' id='id' />
+                    <input type='hidden' value="<?=$user_detail['id']?>" name='id' id='id' />
                                                 <div class="form-group">
                                                     <label class="form-label" for="simpleinput">User Name</label>
-                            <?php
-
-
-                            $sql = "select * from users where type = 2";
-                            $rs = mysqli_query($con,$sql);
-
-                            $count = mysqli_num_rows($rs);
-
                             
-
-                            ?>
-
-                            <select id='user_id' name='user_id' class='form-control'>
-                                <option>Email</option>
-
-                                <?php 
-                                for($i=0;$i<$count;$i++){ 
-                                    $row = mysqli_fetch_array($rs);
-
-                                    $selected= "";
-
-                                    if($row['id'] == $userDetail['user_id'])
-                                        $selected = "selected";
-                                
-        echo "<option value='$row[id]'  $selected   >".$row['name'].", ".$row['email']."</option>";
-
-                                 } ?>
-
-                            </select>
+                                                <input type="text" id="name" name="name" class="form-control"  required value="<?=$user_detail['name']?>">
+                           
                                                     
 
 
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label" for="example-email-2">Complain</label>
-                                                    <input type="text" id="email" name="complain" class="form-control" placeholder="Enter Your Complain" required value="<?=$usersDetail['complain']?>">
+                                                    <label class="form-label" for="example-email-2">Email</label>
+                                                    <input type="text" id="email" name="email" class="form-control"  required value="<?=$user_detail['email']?>">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="form-label" for="example-password">details</label>
-                                                    <input type="text" id="detail" name="detail" class="form-control"  required placeholder="Enter Complain Details" value='<?=$complainDetail['detail']?>'>
+                                                    <label class="form-label" for="example-password">Number</label>
+                                                    <input type="text" id="number" name="number" class="form-control"  required placeholder="Enter Complain Details" value="<?=$user_detail['number'];?>" >
                                                 </div>
                                               
 
                                                 <div class="form-group">
-                                                    <label class="form-label" for="example-palaceholder">Category</label>
-                                            <?php
-                                            $sql = "select * from category";
-
-                                            $rs = mysqli_query($con,$sql);
-
-                                            $count = mysqli_num_rows($rs);
-
-
-                                            ?>
-                                            <select id='category' name='category' class='form-control'>
-                                                <?php
-                                                    for($i=0;$i<$count;$i++){
-                                                        $row = mysqli_fetch_array($rs);
-                            echo "<option value='".$row['id']."'>".$row['name']."</option>";
-                                                    }
-
-                                                ?>
+                                                    <label class="form-label" for="example-palaceholder">address</label>
+                                            <input type="text" id="address" name="address" class="form-control"  required placeholder="Enter Complain Details" value='<?=$user_detail['address']?>'>
                                             </select>
                                                   
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <label class="form-label" for="example-palaceholder">Assigned_To</label>
-                                                                               <?php
-
-
-                            $sql = "select * from employees";
-                            $rs = mysqli_query($con,$sql);
-
-                            $count = mysqli_num_rows($rs);
-
-                           
-
-
-                            ?>
-
-                            <select id='employee' name='employee' class='form-control'>
-                                <option value='0'>Select Employee</option>
-
-                                <?php 
-                                for($i=0;$i<$count;$i++){ 
-                                    $row = mysqli_fetch_array($rs);
-                                
-                                echo "<option value='".$row['id']."'>".$row['name']."</option>";
-
-                                 } ?>
-
-                            </select>
-                                                    
- </div>
+                                              
                                           
                                                 
                                                 
                                                 <div class="form-group">
                                                     
                                                    
-                                                        <button  class="btn btn-primary" id="submit" name='submit' value='Add User'>Update Complain</button>
+                                                        <button  class="btn btn-primary" id="submit" name='submit' value='Add User'>Update Users</button>
                                                         
                                                    
                                                 </div>
